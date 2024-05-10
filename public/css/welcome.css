@@ -29,3 +29,85 @@ min-width: 170px;
 .welcome-wrapper .btn:hover{
 background-color: var(--dark-color);
 }
+
+
+.main-banner {
+  background: linear-gradient(to top, rgba(17, 131, 49, 0.373)100%, rgba(18, 18, 18, 0.285)100%), url('../image/banner-bg-1.png');
+  background-size: cover;
+  background-position: right 35% bottom 45%;
+  height: 100vh;
+}
+
+
+.banner-text {
+  text-align: center;
+  /* color: #b20f14; */
+  color: white;
+  padding-top: 180px;
+  /* position: relative; */
+}
+
+.banner-text h3 {
+  font-size: 50px;
+  font-family: 'Kaushan Script', cursive;
+  /* kaushan and poppin */
+}
+
+.banner-text p {
+  font-size: 20px;
+  font-style: italic;
+}
+
+.banner-btn {
+  margin: 70px auto 0;
+}
+
+.banner-btn a {
+  width: 150px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0 10px;
+  padding: 12px 0;
+  color: white;
+  border: 1px solid #27ae60;
+  position: relative;
+  z-index: 1;
+  transition: color 0.5s;
+}
+
+.banner-btn a span {
+  width: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--green);
+  z-index: -1;
+  transition: 0.5s;
+}
+
+.banner-btn a:hover span {
+  width: 100%;
+}
+
+.banner-btn a:hover {
+  color: white;
+}
+
+/* Show my website on small screen */
+@media screen and (max-width:770px) {
+  .banner-text h3 {
+    font-size: 20px;
+    padding-top: 0px;
+  }
+
+  .banner-btn a {
+    display: block;
+    margin: 20px auto;
+  }
+
+  .banner-text{
+    font-size: 12px;
+  }
+}

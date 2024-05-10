@@ -37,8 +37,6 @@
 
 <body>
 
-
-
     @yield('content')
 
     <a href="#" style="background-color: var(--green)"

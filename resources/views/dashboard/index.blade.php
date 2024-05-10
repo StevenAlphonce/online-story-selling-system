@@ -689,6 +689,4 @@
             </div>
         </section>
     </main>
-
-    @include('layout.includes._footer')
 @endsection

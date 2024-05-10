@@ -1,9 +1,11 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
+
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{ url('/') }}" class="logo d-flex align-items-center">
-            <img src="assets/img/logo.png" alt="">
-            <span style="color: var(--green);" class="d-none d-lg-block">Online Story Selling</span>
+            <span style="color: var(--green);" class="d-none d-lg-block">
+                {{ __('Online Story Selling') }}
+            </span>
         </a>
     </div>
     <!-- End Logo -->
@@ -16,82 +18,37 @@
     <!-- End Search Bar -->
 
     <nav class="header-nav ms-auto mr-lg-2">
-        <ul style="float:left" class="d-flex">
-            <li class="nav-item d-block d-lg-none">
+        <ul class="d-flex">
+            <li class="nav-item d-block d-lg-none float-left">
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
                     <i class="bi bi-search"></i>
                 </a>
             </li>
             <!-- End Search Icon-->
 
-            <li style="margin-right: 10px;" class="nav-item dropdown">
+            <li style="margin-right: 50px;" class="nav-item dropdown">
                 <a class="nav-link " href="#" data-bs-toggle="dropdown">
                     <span class="d-md-block dropdown-toggle ps-2">Browse</span>
                 </a>
                 <!-- End Browse menu -->
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                    <li class="dropdown-header">
-                        You have 4 new notifications
-                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
 
-                    <li class="notification-item">
-                        <i class="bi bi-exclamation-circle text-warning"></i>
-                        <div>
-                            <h4>Lorem Ipsum</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>30 min. ago</p>
-                        </div>
-                    </li>
+                    <ul class="dropdown-menu-browse">
+                        <li class="dropdown-item-browse-header">Browse</li>
+                        <li class="dropdown-item-browse">Adventure</li>
+                        <li class="dropdown-item-browse">Fantasy</li>
+                        <li class="dropdown-item-browse">Horror</li>
+                        <li class="dropdown-item-browse">Humor</li>
+                        <li class="dropdown-item-browse">Mystery</li>
+                        <li class="dropdown-item-browse">Non-Fiction</li>
+                        <li class="dropdown-item-browse">Paranormal</li>
+                        <li class="dropdown-item-browse">Poetry</li>
+                        <li class="dropdown-item-browse">Romance</li>
+                        <li class="dropdown-item-browse">Science Fiction</li>
+                        <li class="dropdown-item-browse">Teen Fiction</li>
+                        <li class="dropdown-item-browse">Thriller</li>
+                    </ul>
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                        <i class="bi bi-x-circle text-danger"></i>
-                        <div>
-                            <h4>Atque rerum nesciunt</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>1 hr. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                        <i class="bi bi-check-circle text-success"></i>
-                        <div>
-                            <h4>Sit rerum fuga</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>2 hrs. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="notification-item">
-                        <i class="bi bi-info-circle text-primary"></i>
-                        <div>
-                            <h4>Dicta reprehenderit</h4>
-                            <p>Quae dolorem earum veritatis oditseno</p>
-                            <p>4 hrs. ago</p>
-                        </div>
-                    </li>
-
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li class="dropdown-footer">
-                        <a href="#">Show all notifications</a>
-                    </li>
 
                 </ul>
                 <!-- End Browse Dropdown Items -->
@@ -299,9 +256,9 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ url('panell') }}">
+                            <a class="dropdown-item d-flex align-items-center" href="{{ url('dashboard') }}">
                                 <i class="bi bi-speedometer2"></i>
-                                <span>My Pannel</span>
+                                <span>Dashboard</span>
                             </a>
                         </li>
 

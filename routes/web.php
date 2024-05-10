@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\PanellController;
-use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RolesPermissionController;
+use GuzzleHttp\Middleware;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 //Route to view home page
 Route::get('/', [WelcomeController::class, 'index']);
@@ -35,5 +38,14 @@ Route::get('logout', [AuthController::class, 'logout']);
 //Accessing the platform Athenticated
 Route::group(['middleware' => 'authmiddleware'], function () {
 
-  Route::get('panell', [PanellController::class, 'index']);
+  Route::get('dashboard', [DashboardController::class, 'index']);
+  Route::get('dashboard/profile', [DashboardController::class, 'profile']);
+
+  Route::get('dashboard/roles-and-permission', [RolesPermissionController::class, 'show']);
+  Route::get('dashboard/add-permission', [RolesPermissionController::class, 'addPermissions']);
+  Route::get('dashboard/create-role', [RolesPermissionController::class, 'createRole']);
+  Route::post('dashboard/add-role', [RolesPermissionController::class, 'create']);
+  Route::get('dashboard/edit-role/{id}', [RolesPermissionController::class, 'editRole']);
+  Route::post('dashboard/update-role', [RolesPermissionController::class, 'updateRole']);
+  Route::get('dashboard/delete-role/{id}', [RolesPermissionController::class, 'delete']);
 });
