@@ -1,0 +1,260 @@
+.btn{
+  /* width: 200px; */
+  height: 40px;
+  background-color: var(--green);
+  color: white;
+  transition: 0.5s;
+}
+
+.not-btn {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.a{
+  text-decoration: none;
+  color: none;
+}
+
+.btn:hover{
+background-color: var(--green);
+color: white;
+font-weight: bold;
+}
+
+.no-story-card{
+  height: 200px;
+}
+
+.story-card{
+
+}
+
+.story-card-header{
+  height: 50px;
+  /* background:none; */
+}
+
+.story-card-header .btn{
+  float: right;
+}
+.story-card img{
+height: 125px;
+width: 100px;
+padding:10px ;
+margin-left: 15%;
+border-radius: 15%;
+}
+
+.story-single{
+  padding: 0px;
+  /* height: 140px; */
+  border: var(--border);
+  border-radius: 10px;
+}
+
+
+.story-single:not(:first-child){
+margin-top: 10px;
+}
+
+
+.story-info{
+margin-top: 10px;
+}
+
+.story-info h5{
+font-size: large;
+font-weight: bold;
+}
+
+.story-info p{
+  font-size: small;
+  margin: 0px;
+  padding: 0px;
+}
+
+.story-stat{
+display: inline-flex;
+margin:20px 0px 10px 0px;
+}
+
+.story-stat i:not(:first-child){
+  margin-left: 20px;
+}
+
+.story-stat span{
+  font-size: small;
+  margin-left:8px ;
+  font-weight: bold;
+}
+
+
+
+.story-operation{
+  margin: 10%  0px 5px  20%;
+}
+
+.story-operation .config-op{
+  border:var(--border);
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.config-op:hover{
+  background-color: var(--green);
+  color: white;
+  font-weight: bold;
+}
+
+
+
+@media screen and (max-width:770px) {
+
+  .story-single{
+    margin:auto;
+  }
+  .story-cover img{
+    height: 350px;
+     width:100%;
+     padding: 10px 0px 0px 0px;
+     margin: 0px;
+     border-radius: 9px;
+
+  }
+.story-configurations{
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.story-statinfo-wrapper,.story-configurations{
+  margin-left: 20px;
+
+}
+
+
+
+
+}
+/* Sory Modal style */
+
+/* Image uploader on story modal */
+
+
+
+
+.modal-dialog .modal-content{
+  height: auto;
+}
+
+.modal-header{
+  padding: 0px;
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  background: white;
+}
+
+.modal-header .modal-header-left{
+  display: inline-flex;
+}
+
+.modal-header-left .back{
+  font-size: 30px;
+  margin-top: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.modal-header-left .back:hover{
+  color: var(--light-color);
+  font-weight: bold;
+}
+
+.modal-header-left{
+  margin: 0px;
+}
+
+.modal-header-left .status span{
+font-size: small;
+margin-bottom: 0;
+padding: 0;
+}
+
+.modal-header-left .status h3{
+  margin-top: 0px;
+  font-weight: bold;
+  color: var(--light-color);
+}
+
+.modal-header .modal-header-right{
+margin-right: 50px;
+}
+
+.modal-header .modal-header-right button{
+  color:white;
+}
+
+.modal-header .modal-header-right .btn{
+  width: 100px;
+}
+
+.modal-header .modal-header-right .cancel{
+background-color:var(--light-color) ;
+}
+
+.modal-container{
+  margin: auto;
+  /* width: 90%; */
+}
+
+.modal-form-wrapper{
+  margin-top: 5px;
+}
+
+.modal-form-wrapper form div{
+  margin-top: 12px;
+}
+
+.modal-form-wrapper form label{
+  color:var(--light-color);
+  font-weight: bold;
+  font-size: medium;
+}
+
+/* Story filtered */
+ .story-category-single{
+  height: 200px;
+  padding: 10px;
+  margin: 0px;
+  /* border: var(--border); */
+ }
+
+
+
+ .story-category-cover img{
+  height: 180px;
+  width: 120px;
+  margin-top: 5px;
+  float: inline-end;
+  object-fit: cover;
+ }
+
+ .story-category-description{
+text-align: justify;
+padding: 15px;
+ }
+
+ .story-category-status{
+  width: 100%;
+  display: inline-block;
+  font-size: small;
+ }
+
+

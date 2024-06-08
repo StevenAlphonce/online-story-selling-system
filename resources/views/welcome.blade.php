@@ -16,6 +16,5 @@
             </div>
         </div>
     </section>
-
     @include('layout.includes._footer')
 @endsection

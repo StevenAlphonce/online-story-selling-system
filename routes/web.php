@@ -1,51 +1,101 @@
 <?php
 
+use App\Models\Story;
+use App\Models\Chapter;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StoryController;
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\BrowseStoriesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RolesPermissionController;
-use GuzzleHttp\Middleware;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 //Route to view home page
 Route::get('/', [WelcomeController::class, 'index']);
 
 
-Route::get('register', [AuthController::class, 'show_registration_form']);
-Route::post('register', [AuthController::class, 'store_user']);
+/**---------------------------------------------------------------
+ * USER ATHENTICATION ROUTE GROUP
+ ----------------------------------------------------------------*/
+Route::controller(AuthController::class)->group(function () {
+  // Registration routes
+  Route::get('register', 'show_registration_form');
+  Route::post('register', 'store_user');
 
-//Route for user to verify their tokens
-Route::get('verification/{token}', [AuthController::class, 'verify_user']);
+  // Verification route
+  Route::get('verification/{token}', 'verify_user');
 
-//Route to login user
-Route::get('login', [AuthController::class, 'show_login_form']);
-Route::post('login', [AuthController::class, 'login']);
+  // Login routes
+  Route::get('login', 'show_login_form');
+  Route::post('login', 'login');
 
-//Reset password route
-Route::get('reset', [AuthController::class, 'reset_password_form']);
-Route::post('reset', [AuthController::class, 'reset_password']);
+  // Password reset routes
+  Route::get('reset', 'reset_password_form');
+  Route::post('reset', 'reset_password');
+  Route::get('reset-password/{token}', 'changePasswordForm');
+  Route::post('reset-password/{token}', 'changePassword');
 
-//Change password route
-Route::get('reset-password/{token}', [AuthController::class, 'changePasswordForm']);
-Route::post('reset-password/{token}', [AuthController::class, 'changePassword']);
+  // Logout route
+  Route::get('logout', 'logout');
+});
+/**---------------------------------------------------------------
+ **************END OF USER ATHENTICATION ROUTE GROUP*************
+ ----------------------------------------------------------------*/
+
+//Route to browse all stories
+Route::get('/all-stories', [BrowseStoriesController::class, 'index']);
+
+// Browse  stories by category
+Route::get('/stories/{category}', [BrowseStoriesController::class, 'showStoriesByCategory'])->name('stories.category');
+Route::get('story/{story}', [BrowseStoriesController::class, 'storyChapters'])->name('story.show');
+//Endpoint for Fetching Chapter Content
+Route::get('/stories/{story}/chapters/{chapter}', [ChapterController::class, 'showChapter'])->name('chapters.show');
+Route::get('/stories/{story}/chapters/{chapter}/content', [ChapterController::class, 'content'])->name('chapters.content');
 
 
-//Log out user
-Route::get('logout', [AuthController::class, 'logout']);
+
+Route::group(['middleware' => ['role:admin', 'authmiddleware']], function () {
+  // Admin routes
+
+  Route::get('dashboard', [DashboardController::class, 'dashboard']);
+  /**-----------------------------------------------------------------------
+   * PROFILE RESOURCE ROUTES
+  -------------------------------------------------------------------------*/
+  Route::get('dashboard/profile', [ProfileController::class, 'index']);
+
+  /**-------------------------------------------------------------------------
+   * CATEGORY RESOURCE ROUTES
+  ----------------------------------------------------------------------------*/
+  Route::resource('dashboard/categories', CategoryController::class);
+});
 
 
-//Accessing the platform Athenticated
-Route::group(['middleware' => 'authmiddleware'], function () {
 
-  Route::get('dashboard', [DashboardController::class, 'index']);
-  Route::get('dashboard/profile', [DashboardController::class, 'profile']);
 
-  Route::get('dashboard/roles-and-permission', [RolesPermissionController::class, 'show']);
-  Route::get('dashboard/add-permission', [RolesPermissionController::class, 'addPermissions']);
-  Route::get('dashboard/create-role', [RolesPermissionController::class, 'createRole']);
-  Route::post('dashboard/add-role', [RolesPermissionController::class, 'create']);
-  Route::get('dashboard/edit-role/{id}', [RolesPermissionController::class, 'editRole']);
-  Route::post('dashboard/update-role', [RolesPermissionController::class, 'updateRole']);
-  Route::get('dashboard/delete-role/{id}', [RolesPermissionController::class, 'delete']);
+Route::group(['middleware' => ['authmiddleware']], function () {
+
+  /**-------------------------------------------------------------------------
+  STORY  ROUTES
+  ----------------------------------------------------------------------------*/
+  Route::get('stories', [StoryController::class, 'showStories'])->name('stories.show');
+  Route::get('create-story', [StoryController::class, 'createStory'])->name('story.create');
+  Route::post('create-story', [StoryController::class, 'saveStory']);
+  Route::get('edit-story/{story}/edit', [StoryController::class, 'editStory'])->name('story.edit');
+  Route::put('edit-story/{story}/edit', [StoryController::class, 'updateStory'])->name('story.update');
+  Route::delete('delete-story/{story}', [StoryController::class, 'deleteStory'])->name('story.delete');
+
+  /**-------------------------------------------------------------------------
+  CHAPTER RESOURCES ROUTES
+  ----------------------------------------------------------------------------*/
+  Route::get('/story/{story}/chapter/create', [ChapterController::class, 'create'])->name('chapter.create');
+  Route::post('/story/{story}/chapter', [ChapterController::class, 'store'])->name('chapter.store');
+  Route::get('story/{story}/chapter/{chapter}/write', [ChapterController::class, 'write'])->name('chapter.write');
+  Route::put('story/{story}/chapter/{chapter}', [ChapterController::class, 'update'])->name('chapter.update');
+  Route::delete('story/{story}/chapter/{chapter}', [ChapterController::class, 'destroy'])->name('chapter.delete');
 });

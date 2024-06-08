@@ -37,22 +37,31 @@ class AuthController extends Controller
                 // ->symbols()
                 // ->uncompromised(),
 
-            ],
+            ], 'type' => 'required|in:user,admin' // Ensure the type field is provided and valid
         ]);
 
-        $save = new User();
+        $user = new User();
 
-        $save->name = trim($request->name);
-        $save->email = trim($request->email);
-        $save->password = Hash::make($request->password);
+        $user->name = trim($request->name);
+        $user->email = trim($request->email);
+        $user->password = Hash::make($request->password);
 
         //Generating remember token to verify registered user
-        $save->remember_token = Str::random(40);
+        $user->remember_token = Str::random(40);
 
-        $save->save();
+        $user->save();
+
+        // Assign role based on user type
+        if ($user->type == 'admin') {
+            $user->assignRole('admin');
+        } else {
+            $user->assignRole('user');
+        }
+
+
 
         //Sending verification email to a user during registration
-        Mail::to($save->email)->send(new VerifyEmail($save));
+        Mail::to($user->email)->send(new VerifyEmail($user));
 
         return redirect('login')->with('success', "Your account registered sucessfuly,Please check your inbox to verify your Account.");
     }

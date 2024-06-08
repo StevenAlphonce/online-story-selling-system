@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title')->unique();
-            $table->foreignId('users_id')->references('id')->on('users'); //Autor
-            $table->string('description');
-            $table->boolean('status');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); //Autor
+            $table->text('description');
+            $table->boolean('status')->default(0);
+            $table->softDeletes();
         });
     }
 

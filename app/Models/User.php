@@ -7,6 +7,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,14 @@ class User extends Authenticatable
     {
 
         return self::find($id);
+    }
+
+    /**
+     * Get the stories associated with the user.
+     */
+    public function stories()
+    {
+
+        return $this->hasMany(Story::class)->withTrashed();
     }
 }

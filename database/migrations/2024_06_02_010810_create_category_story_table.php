@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchases', function (Blueprint $table) {
+        Schema::create('category_story', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('story_id');
+            $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('story_id')->references('id')->on('stories')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); //Buyer
-            $table->timestamp('purchase_date');
-            $table->string('purchase_type');
+
+            // Optionally, you can add unique constraints or other columns as needed
+            // $table->unique(['category_id', 'story_id']);
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchases');
+        Schema::dropIfExists('category_story');
     }
 };

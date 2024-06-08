@@ -10,16 +10,6 @@
         </li>
         <!-- End Dashboard Nav -->
 
-        @can('Create Story')
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-menu-button-wide"></i>
-                    <span>{{ __('Create Story') }}</span>
-                </a>
-            </li>
-            <!-- End Create story Nav -->
-        @endcan
-
         @can('Manage User')
             <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -30,6 +20,7 @@
             <!-- End Manage user Nav -->
         @endcan
 
+
         @can('Manage roles and permission')
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('dashboard/roles-and-permission') }}">
@@ -38,6 +29,16 @@
                 </a>
             </li>
             <!-- End Roles and permission Nav -->
+        @endcan
+
+        @can('create categories')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('dashboard/categories') }}">
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span>{{ __('Categories') }}</span>
+                </a>
+            </li>
+            <!-- End Manage user Nav -->
         @endcan
 
 

@@ -35,7 +35,7 @@ background-color: var(--dark-color);
   background: linear-gradient(to top, rgba(17, 131, 49, 0.373)100%, rgba(18, 18, 18, 0.285)100%), url('../image/banner-bg-1.png');
   background-size: cover;
   background-position: right 35% bottom 45%;
-  height: 100vh;
+  height: 85vh;
 }
 
 
@@ -97,6 +97,24 @@ background-color: var(--dark-color);
 
 /* Show my website on small screen */
 @media screen and (max-width:770px) {
+  .main-banner {
+      height: 82vh;
+    }
+
+        .banner-text {
+          text-align: center;
+          /* color: #b20f14; */
+          color: white;
+          padding-top: 80px;
+          font-family: 'Kaushan Script', cursive;
+          font-size: 30px;
+          /* position: relative; */
+        }
+
+        .banner-btn {
+          margin: 50px auto 0;
+        }
+
   .banner-text h3 {
     font-size: 20px;
     padding-top: 0px;
@@ -109,5 +127,8 @@ background-color: var(--dark-color);
 
   .banner-text{
     font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
+
 }

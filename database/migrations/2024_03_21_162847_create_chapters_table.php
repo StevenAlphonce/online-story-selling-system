@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('story_id');
+            $table->foreign('story_id')->references('id')->on('stories')->onDelete('cascade');
+            $table->bigInteger('chapter_number')->default(0);
+            $table->string('title')->default('Untitled Chapter');
+            $table->text('content')->nullable();
+            $table->boolean('is_draft')->default('1');
             $table->timestamps();
-            $table->foreignId('stories_id')->references('id')->on('stories');
-            $table->bigInteger('chapter');
-            $table->string('title');
-            $table->string('content');
         });
     }
 
