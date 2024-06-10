@@ -1,22 +1,10 @@
 @extends('layout.app')
 @include('layout.includes._header')
 
-
 @section('content')
     <main style="margin-top: 100px" class="container">
         <div class="card">
-            {{-- <div class="d-flex card-header justify-content-between align-items-center mb-3">
-                <h6>{{ count($stories) }}<span> Stories</span>
-                    <h6>
-                        <div>
-                            <label for="sort" class="form-label">Sort by:</label>
-                            <select class="form-select" id="sort" style="width: auto; display: inline-block;">
-                                <option value="hot">Hot</option>
-                                <option value="new">New</option>
-                                <option value="top">Top</option>
-                            </select>
-                        </div>
-            </div> --}}
+
             <div class="row card-body">
                 @foreach ($stories as $story)
                     {{-- @if ($stories->count() == 0)

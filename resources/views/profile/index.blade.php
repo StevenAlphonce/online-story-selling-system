@@ -1,28 +1,38 @@
 @extends('layout.app')
 @include('layout.includes._header')
-@include('layout.includes._sidebar')
+@if (Auth::User()->type == 'admin')
+    @include('layout.includes._sidebar')
+@endif
 @section('content')
-    <main class="main" id="main">
+    <main
+        @if (Auth::User()->type == 'admin') @php
+        echo 'class="main" id="main" ';
+    @endphp @else @php
+        echo 'class="container" style="margin-top:100px;';
+    @endphp @endif>
         <div class="pagetitle">
-            <h1>Profile</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Users</li>
-                    <li class="breadcrumb-item active">Profile</li>
-                </ol>
-            </nav>
+            @if (Auth::User()->type == 'admin')
+                <h1>Profile</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item">Users</li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </nav>
+            @endif
         </div><!-- End Page Title -->
+
         <section class="section profile">
             <div class="row">
                 <div class="col-xl-4">
 
                     <div class="card">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                            <h2>Kevin Anderson</h2>
-                            <h3>Web Designer</h3>
+                            <img src="{{ $user->profile && $user->profile->photo ? asset('storage/' . $user->profile->photo) : asset('image/profile_avatar.png') }}"
+                                alt="Profile_photo" class="rounded-circle">
+                            <h2>{{ Auth::User()->name }}</h2>
+                            <div></div>
                             <div class="social-links mt-2">
                                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                                 <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -66,47 +76,33 @@
 
                                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                     <h5 class="card-title">About</h5>
-                                    <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores
-                                        cumque
-                                        temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum
-                                        quae
-                                        quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                                    <p class="small fst-italic">{{ $user->profile->about ?? '' }}</p>
 
                                     <h5 class="card-title">Profile Details</h5>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                        <div class="col-lg-9 col-md-8">Kevin Anderson</div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Company</div>
-                                        <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Job</div>
-                                        <div class="col-lg-9 col-md-8">Web Designer</div>
+                                        <div class="col-lg-9 col-md-8">{{ $user->name }}</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Country</div>
-                                        <div class="col-lg-9 col-md-8">USA</div>
+                                        <div class="col-lg-9 col-md-8">{{ $user->profile->country ?? '' }}</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Address</div>
-                                        <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                                        <div class="col-lg-9 col-md-8">{{ $user->profile->address ?? '' }}</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Phone</div>
-                                        <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                                        <div class="col-lg-9 col-md-8">{{ $user->profile->phone ?? '' }}</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Email</div>
-                                        <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                                        <div class="col-lg-9 col-md-8">{{ $user->email }}</div>
                                     </div>
 
                                 </div>
@@ -114,17 +110,19 @@
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                     <!-- Profile Edit Form -->
-                                    <form>
+                                    <form method="POST" action="{{ route('profile.update') }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+
                                         <div class="row mb-3">
                                             <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                                 Image</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <img src="assets/img/profile-img.jpg" alt="Profile">
-                                                <div class="pt-2">
-                                                    <a href="#" class="btn btn-primary btn-sm"
-                                                        title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"
-                                                        title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                <img src="{{ $user->profile && $user->profile->photo ? asset('storage/' . $user->profile->photo) : asset('image/profile_avatar.png') }}"
+                                                    alt="Profile_photo">
+                                                <div style="margin-left:30px" class="pt-2">
+                                                    <input type="file" name="photo" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -133,30 +131,14 @@
                                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="fullName" type="text" class="form-control" id="fullName"
-                                                    value="Kevin Anderson">
+                                                    value="{{ old('fullName', $user->name) }}">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="company" type="text" class="form-control" id="company"
-                                                    value="Lueilwitz, Wisoky and Leuschke">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="job" type="text" class="form-control" id="Job"
-                                                    value="Web Designer">
+                                                <textarea name="about" class="form-control" id="about" style="height: 100px">{{ old('about', $user->profile->about ?? '') }}</textarea>
                                             </div>
                                         </div>
 
@@ -164,7 +146,7 @@
                                             <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="country" type="text" class="form-control" id="Country"
-                                                    value="USA">
+                                                    value="{{ old('country', $user->profile->country ?? '') }}">
                                             </div>
                                         </div>
 
@@ -172,7 +154,7 @@
                                             <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="address" type="text" class="form-control" id="Address"
-                                                    value="A108 Adam Street, New York, NY 535022">
+                                                    value="{{ old('address', $user->profile->address ?? '') }}">
                                             </div>
                                         </div>
 
@@ -180,7 +162,7 @@
                                             <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="phone" type="text" class="form-control" id="Phone"
-                                                    value="(436) 486-3538 x29071">
+                                                    value="{{ old('phone', $user->profile->phone ?? '') }}">
                                             </div>
                                         </div>
 
@@ -188,50 +170,26 @@
                                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="email" type="email" class="form-control" id="Email"
-                                                    value="k.anderson@example.com">
+                                                    value="{{ old('email', $user->email) }}">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
-                                                Profile</label>
+                                            <label for="socialMedia" class="col-md-4 col-lg-3 col-form-label">Social Media
+                                                Accounts</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="twitter" type="text" class="form-control" id="Twitter"
-                                                    value="https://twitter.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="facebook" type="text" class="form-control"
-                                                    id="Facebook" value="https://facebook.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="instagram" type="text" class="form-control"
-                                                    id="Instagram" value="https://instagram.com/#">
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin
-                                                Profile</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <input name="linkedin" type="text" class="form-control"
-                                                    id="Linkedin" value="https://linkedin.com/#">
+                                                <input name="social_media" type="text" class="form-control"
+                                                    id="socialMedia"
+                                                    value="{{ old('social_media', $user->profile->social_media ?? '') }}">
                                             </div>
                                         </div>
 
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn">Save Changes</button>
                                         </div>
-                                    </form><!-- End Profile Edit Form -->
+                                    </form>
+
+                                    <!-- End Profile Edit Form -->
 
                                 </div>
 
@@ -244,18 +202,12 @@
                                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
                                                 Notifications</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="changesMade"
-                                                        checked>
-                                                    <label class="form-check-label" for="changesMade">
-                                                        Changes made to your account
-                                                    </label>
-                                                </div>
+
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="newProducts"
                                                         checked>
                                                     <label class="form-check-label" for="newProducts">
-                                                        Information on new products and services
+                                                        Information on new Stories and chapters
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
@@ -283,8 +235,8 @@
 
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form>
-
+                                    <form action="{{ route('profile.password.update') }}" method="POST">
+                                        @csrf
                                         <div class="row mb-3">
                                             <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
                                                 Password</label>
@@ -292,31 +244,41 @@
                                                 <input name="password" type="password" class="form-control"
                                                     id="currentPassword">
                                             </div>
+                                            <div style="color:red;font-size:12px;">{{ $errors->first('password') }}</div>
+
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
-                                                Password</label>
+                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">
+                                                New Password
+                                            </label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="newpassword" type="password" class="form-control"
                                                     id="newPassword">
                                             </div>
+                                            <div style="color:red;font-size:12px;">{{ $errors->first('newpassword') }}
+                                            </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter
-                                                New
-                                                Password</label>
+                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">
+                                                Re-enter New Password
+                                            </label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="renewpassword" type="password" class="form-control"
                                                     id="renewPassword">
                                             </div>
+                                            <div style="color:red;font-size:12px;">{{ $errors->first('renewpassword') }}
+                                            </div>
+
                                         </div>
+
 
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary">Change Password</button>
                                         </div>
-                                    </form><!-- End Change Password Form -->
+                                    </form>
+                                    <!-- End Change Password Form -->
 
                                 </div>
 

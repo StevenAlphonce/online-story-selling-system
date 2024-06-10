@@ -11,8 +11,8 @@
                 {{ __('Online Selling System has great deals on a wide range of stories.') }}
             </p>
             <div class="banner-btn">
-                <a href="#"><span></span>{{ __('Start Reading') }}</a>
-                <a href="#"><span></span>{{ __('Start Writting') }}</a>
+                <a href="{{ route('stories.all') }}"><span></span>{{ __('Start Reading') }}</a>
+                <a href="{{ route('login') }}"><span></span>{{ __('Start Writting') }}</a>
             </div>
         </div>
     </section>

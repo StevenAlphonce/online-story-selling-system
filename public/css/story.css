@@ -236,7 +236,11 @@ background-color:var(--light-color) ;
   /* border: var(--border); */
  }
 
-
+ @media screen and (max-width:770px) {
+  .story-category-single {
+      height: 230px;
+  }
+ }
 
  .story-category-cover img{
   height: 180px;

@@ -14,7 +14,7 @@ class BrowseStoriesController extends Controller
 
         $stories = Story::all();
 
-        return view('browse.index', compact('stories'))->name('stories.all');
+        return view('browse.index', compact('stories'));
     }
 
     //Function to filter stories by their categories

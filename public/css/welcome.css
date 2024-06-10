@@ -35,7 +35,7 @@ background-color: var(--dark-color);
   background: linear-gradient(to top, rgba(17, 131, 49, 0.373)100%, rgba(18, 18, 18, 0.285)100%), url('../image/banner-bg-1.png');
   background-size: cover;
   background-position: right 35% bottom 45%;
-  height: 85vh;
+  height: 91vh;
 }
 
 

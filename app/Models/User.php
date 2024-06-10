@@ -3,11 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Profile;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -18,10 +19,12 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'type',
     ];
 
     /**
@@ -47,6 +50,8 @@ class User extends Authenticatable
         ];
     }
 
+
+
     //Geting single user
     static function getSingle($id)
     {
@@ -61,5 +66,14 @@ class User extends Authenticatable
     {
 
         return $this->hasMany(Story::class)->withTrashed();
+    }
+
+    /**
+     * Get the profile associated with the user.
+     */
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 }
