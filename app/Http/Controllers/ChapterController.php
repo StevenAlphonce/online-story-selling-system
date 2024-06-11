@@ -43,7 +43,7 @@ class ChapterController extends Controller
 
         $request->validate([
             'title' => 'required|max:255',
-            'content' => 'max:2500',
+            'content' => 'min:50',
             'is_draft' => 'boolean',
         ]);
 
@@ -53,7 +53,7 @@ class ChapterController extends Controller
         $chapter->story_id = $story->id;
         $chapter->chapter_number = $chapterNumber;
         $chapter->title = $request->title;
-        $chapter->content = $request->content;
+        $chapter->content = trim($request->content);
         $chapter->is_draft = $request->is_draft;
         $chapter->save();
 
@@ -93,18 +93,19 @@ class ChapterController extends Controller
      */
     public function update(Request $request, Story $story, Chapter $chapter)
     {
+        // dd($request);
         $isEdit = true;
         $categories = Category::all();
 
         $request->validate([
             'title' => 'required|max:255',
-            'content' => 'max:2500',
+            'content' => 'min:50',
             'is_draft' => 'boolean',
         ]);
 
         // Update the existing chapter's attributes
         $chapter->title = $request->title;
-        $chapter->content = $request->content;
+        $chapter->content = trim($request->content);
         $chapter->is_draft = $request->is_draft;
 
         // Save the updated chapter

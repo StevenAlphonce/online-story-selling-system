@@ -14,7 +14,7 @@
                                     {{-- <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5> --}}
                                 </div>
 
-                                <form class="row g-3" method="post" action="{{ url('register') }}">
+                                <form class="row g-3" method="post" action="{{ route('register') }}">
                                     @csrf
                                     <div class="col-12">
                                         <label for="yourName" class="form-label">Your Name</label>

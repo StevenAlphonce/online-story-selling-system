@@ -1,5 +1,62 @@
  @extends('layout.app')
 
+ @push('style')
+     <style>
+         .card {
+             position: relative;
+             width: 100%;
+             overflow: hidden;
+         }
+
+         .card img {
+             width: 100%;
+             transition: transform 0.3s ease;
+         }
+
+         .card:hover img {
+             transform: scale(1.1);
+         }
+
+         .card .hover-buttons {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             display: flex;
+             flex-direction: column;
+             justify-content: center;
+             align-items: center;
+             background-color: rgba(0, 0, 0, 0.5);
+             opacity: 0;
+             transition: opacity 0.3s ease;
+         }
+
+         .card:hover .hover-buttons {
+             opacity: 1;
+         }
+
+         .hover-buttons button,
+         .hover-buttons input[type="file"] {
+             margin: 10px;
+             color: white;
+             background-color: rgba(0, 0, 0, 0.7);
+             border: none;
+             padding: 10px;
+             cursor: pointer;
+         }
+
+         .hover-buttons input[type="file"] {
+             display: none;
+         }
+
+         .upload-label {
+             cursor: pointer;
+
+         }
+     </style>
+ @endpush
+
  @section('content')
      <!-- Full Screen Modal -->
 
@@ -17,203 +74,166 @@
                  </div>
                  <div class="modal-header-right">
                      <a href="{{ url('stories') }}" class="btn cancel">{{ __('Cancel') }}</a>
-                     <a href="#" class="btn skip" data-bs-dismiss="modal">{{ __('Skip') }}</a>
+                     {{-- <a href="#" class="btn skip" data-bs-dismiss="modal">{{ __('Skip') }}</a> --}}
                  </div>
              </div>
-             <div class="container">
+             <div class="container mt-3">
                  <div class="row">
-
-                     <div class="col-md-12">
-                         <div class="modal-form-wrapper card">
-
-                             <div class="card-body">
-                                 <form action="{{ $isEdit ? route('story.edit' . $story->id) : 'create-story' }}"
-                                     method="POST" class="row g-3" enctype="multipart/form-data">
-                                     @csrf
-                                     @if ($isEdit)
-                                         @method('PUT')
+                     <form class="row g-3" action="{{ route('story.create') }}" method="POST"
+                         enctype="multipart/form-data">
+                         @csrf
+                         <div class="col-md-3">
+                             <div class="card">
+                                 <img id="image-preview" class="img" src="{{ asset('image/no-cover.png') }}"
+                                     alt="Story Cover">
+                                 <div class="hover-buttons">
+                                     <label for="image" class="btn upload-label">Upload Cover</label>
+                                     <input type="file" name="image" id="image"
+                                         onchange="document.getElementById('image-form').submit();">
+                                 </div>
+                                 <div class="card-body text-center">
+                                     <h5 class="card-title">{{ __('Untitled story') }}</h5>
+                                     @if ($errors->has('image'))
+                                         <span class="invalid-feedback" style="display: block;" role="alert">
+                                             <strong>{{ $errors->first('image') }}</strong>
+                                         </span>
                                      @endif
-                                     <div class="row g-3">
-                                         <div class="col-md-6">
-                                             <table class="">
-                                                 <thead>
-                                                     <tr>
-                                                         <th colspan="2"></th>
-                                                     </tr>
-                                                 </thead>
-                                                 <tbody>
-                                                     <tr>
-                                                         <td> <label for="storyTitle"
-                                                                 class="form-label">{{ __('Title') }}</label>
-                                                             <input type="text" name="story_title" class="form-control"
-                                                                 placeholder="Story Title"
-                                                                 value="{{ $isEdit ? $story->title : old('story_title') }}">
+                                 </div>
 
-                                                             @if ($errors->has('story_title'))
-                                                                 <span class="invalid-feedback" style="display: block;"
-                                                                     role="alert">
-                                                                     <strong>{{ $errors->first('story_title') }}</strong>
-                                                                 </span>
-                                                             @endif
-                                                         </td>
-
-                                                     </tr>
-                                                     <tr>
-                                                         <td>
-                                                             <label for="storyDescription"
-                                                                 class="form-label">{{ __('Description') }}</label>
-                                                             <textarea name="story_description" class="form-control" rows="4" cols="50">
-                                                                {{ $isEdit ? $story->description : old('story_description') }}
-                                                             </textarea>
-
-                                                             @if ($errors->has('story_description'))
-                                                                 <span class="invalid-feedback" style="display: block;"
-                                                                     role="alert">
-                                                                     <strong>{{ $errors->first('story_description') }}</strong>
-                                                                 </span>
-                                                             @endif
-                                                         </td>
-                                                     </tr>
-                                                 </tbody>
-                                             </table>
-                                         </div>
-                                         <div class="col-md-6">
-                                             <table class="">
-                                                 <tbody>
-                                                     <tr>
-                                                         <td>
-                                                             {{-- Story vover --}}
-
-                                                             <div class="mb-3">
-                                                                 <img id="image-preview"
-                                                                     src = 'https://cdn.dribbble.com/users/4438388/screenshots/15854247/media/0cd6be830e32f80192d496e50cfa9dbc.jpg?resize=1000x750&vertical=center'
-                                                                     alt="Story Cover"
-                                                                     style="max-height: 250px;float: center;">
-                                                             </div>
-                                                             <div class="form-group">
-                                                                 <input type="file" name="image"
-                                                                     placeholder="Upload Cover" id="image"
-                                                                     value="{{ $isEdit ? $story->cover : old('image') }}">
-                                                                 @if ($errors->has('image'))
-                                                                     <span class="invalid-feedback" style="display: block;"
-                                                                         role="alert">
-                                                                         <strong>{{ $errors->first('image') }}</strong>
-                                                                     </span>
-                                                                 @endif
-                                                             </div>
-                                                         </td>
-                                                     </tr>
-                                                 </tbody>
-                                             </table>
-                                         </div>
+                             </div>
+                         </div>
+                         <div class="col-md-9">
+                             <div class="card">
+                                 <div class="card-body p-4">
+                                     <!-- Title Field -->
+                                     <div class="col-md-12">
+                                         <label for="storyTitle" class="form-label">{{ __('Title') }}</label>
+                                         <input type="text" name="story_title" class="form-control"
+                                             placeholder="Story Title" value="{{ old('story_title') }}">
+                                         @if ($errors->has('story_title'))
+                                             <span class="invalid-feedback" style="display: block;" role="alert">
+                                                 <strong>{{ $errors->first('story_title') }}</strong>
+                                             </span>
+                                         @endif
                                      </div>
-                                     <div class="row g-2 mt-1">
-                                         <div class="col-md-4">
+
+                                     <!-- Description Field -->
+                                     <div class="col-md-12 mt-2">
+                                         <label for="storyDescription" class="form-label">{{ __('Description') }}</label>
+                                         <textarea name="story_description" class="form-control" rows="7" cols="50">{{ old('story_description') }}</textarea>
+                                         @if ($errors->has('story_description'))
+                                             <span class="invalid-feedback" style="display: block;" role="alert">
+                                                 <strong>{{ $errors->first('story_description') }}</strong>
+                                             </span>
+                                         @endif
+                                     </div>
+
+                                     <div class="row mt-2">
+                                         <!-- Main Character Field -->
+                                         <div class="col-md-6">
                                              <label for="mainCharacter"
                                                  class="form-label">{{ __('Main Character') }}</label>
                                              <input type="text" name="main_character" class="form-control"
-                                                 placeholder="Main Character"
-                                                 value="{{ $isEdit ? $story->main_character : old('main_character') }}">
-
+                                                 placeholder="Main Character" value="{{ old('main_character') }}">
                                              @if ($errors->has('main_character'))
                                                  <span class="invalid-feedback" style="display: block;" role="alert">
                                                      <strong>{{ $errors->first('main_character') }}</strong>
                                                  </span>
                                              @endif
                                          </div>
-                                         <div class="col-md-4">
+
+                                         <!-- Category Field -->
+                                         <div class="col-md-6">
                                              <label for="category" class="form-label">{{ __('Category') }}</label>
-                                             <select class="form-select" name="category" id="category">
-                                                 <option selected>{{ __('Select a category') }}</option>
+                                             <select class="form-select" name="category" id="category" required>
+                                                 <option value="">{{ __('Select a category') }}</option>
                                                  @foreach ($categories as $category)
-                                                     @if (old('category') == $category->id)
-                                                         <option selected value="{{ $category->id }}"
-                                                             {{ $isEdit ? ($story->category_id === $category->id ? 'selected' : '') : '' }}>
-                                                             {{ $category->name }}
-                                                         </option>
-                                                     @else
-                                                         <option value="{{ $category->id }}"
-                                                             {{ $isEdit ? ($story->category_id === $category->id ? 'selected' : '') : '' }}>
-                                                             {{ $category->name }}
-                                                         </option>
-                                                     @endif
+                                                     <option value="{{ $category->id }}"
+                                                         {{ (old('category') == $category->id) == $category->id ? 'selected' : '' }}>
+                                                         {{ $category->name }}
+                                                     </option>
                                                  @endforeach
                                              </select>
-
                                              @if ($errors->has('category'))
                                                  <span class="invalid-feedback" style="display: block;" role="alert">
                                                      <strong>{{ $errors->first('category') }}</strong>
                                                  </span>
                                              @endif
                                          </div>
+                                     </div>
 
-                                         <div class="col-md-4">
+                                     <div class="row mt-2">
+
+                                         <!-- Tags Field -->
+                                         <div class="col-md-6">
                                              <label for="tags" class="form-label">{{ __('Tags') }}</label>
                                              <input type="text" name="tags" class="form-control"
-                                                 value="{{ $isEdit ? $story->tags : old('tags') }}">
+                                                 value="{{ old('tags') }}">
+                                         </div>
+
+                                         <!-- Copyright Field -->
+                                         <div class="col-md-6">
+                                             <label for="copyright" class="form-label">{{ __('Copyright') }}</label>
+                                             <select class="form-select" name="copyright" id="copyright" required>
+                                                 <option value="">{{ __('Select Copyright') }}</option>
+                                                 <option value="ARR" {{ old('copyright') == 'ARR' ? 'selected' : '' }}>
+                                                     {{ __('All right reserved') }}</option>
+                                                 <option value="PD" {{ old('copyright') == 'PD' ? 'selected' : '' }}>
+                                                     {{ __('Public Domain') }}</option>
+                                                 <option value="CC" {{ old('copyright') == 'CC' ? 'selected' : '' }}>
+                                                     {{ __('Creative common (CC)') }}</option>
+                                             </select>
+                                             @if ($errors->has('copyright'))
+                                                 <span class="invalid-feedback" style="display: block;" role="alert">
+                                                     <strong>{{ $errors->first('copyright') }}</strong>
+                                                 </span>
+                                             @endif
                                          </div>
                                      </div>
 
-                                     <div class="row g-2 mt-1">
-                                         <div class="col-md-6">
-                                             <div class="col-md-12">
-                                                 <label for="copyright" class="form-label">{{ __('Copyright') }}</label>
-                                                 <select class="form-select" name="copyright" id="copyright">
-                                                     <option selected>{{ __('Select Copyright') }}</option>
-                                                     <option value="ARR">{{ __('All right reserved') }}</option>
-                                                     <option value="PD">{{ __('Public Domain') }}</option>
-                                                     <option value="CC">{{ __('Creative common (CC)') }}</option>
-                                                 </select>
-                                                 @if ($errors->has('copyright'))
-                                                     <span class="invalid-feedback" style="display: block;"
-                                                         role="alert">
-                                                         <strong>{{ $errors->first('copyright') }}</strong>
-                                                     </span>
-                                                 @endif
-                                             </div>
-
-                                             <div class="col-md-12 form-check form-switch">
-                                                 <label class="form-check-label"
-                                                     for="flexSwitchCheckChecked">{{ __('Allow Rating') }}</label>
-                                                 <input class="form-check-input" type="checkbox" name="rating"
-                                                     id="flexSwitchCheckChecked" checked>
-                                             </div>
+                                     <div class="row mt-2">
+                                         <!-- Rating Field -->
+                                         <div class="col-md-6 form-check form-switch">
+                                             <label style="margin:8px 0 20px 0;" class="form-check-label"
+                                                 for="flexSwitchCheckChecked">{{ __('Allow Rating') }}</label>
+                                             <input type="hidden" name="rating" value="0">
+                                             <input style="margin:10px 5px 25px 0;" class="form-check-input"
+                                                 type="checkbox" name="rating" id="flexSwitchCheckChecked"
+                                                 value="1" {{ old('rating') ? 'checked' : '' }}>
                                          </div>
+
+                                         <!-- Language Field -->
                                          <div class="col-md-6">
-                                             <div class="col-md-12">
-                                                 <label for="language" class="form-label">{{ __('Language') }}</label>
-                                                 <select class="form-select" name="language" id="language">
-                                                     <option selected>
-                                                         {{ $isEdit ? $story->language : __('Select Language') }}</option>
-                                                     <option value="ksw">{{ __('Kiswahili') }}</option>
-                                                     <option value="en">{{ __('English') }}</option>
-                                                     <option value="fr">{{ __('French') }}</option>
-                                                 </select>
-
-                                                 @if ($errors->has('language'))
-                                                     <span class="invalid-feedback" style="display: block;"
-                                                         role="alert">
-                                                         <strong>{{ $errors->first('language') }}</strong>
-                                                     </span>
-                                                 @endif
-                                             </div>
-
-                                             <div class="col-md-12">
-                                                 <button style="float: inline-end;" type="submit"
-                                                     class="btn">{{ __('Save Details') }}
-                                                 </button>
-                                             </div>
+                                             <label for="language" class="form-label">{{ __('Language') }}</label>
+                                             <select class="form-select" name="language" id="language" required>
+                                                 <option value="">{{ __('Select Language') }}</option>
+                                                 <option value="ksw" {{ old('language') == 'ksw' ? 'selected' : '' }}>
+                                                     {{ __('Kiswahili') }}</option>
+                                                 <option value="en" {{ old('language') == 'en' ? 'selected' : '' }}>
+                                                     {{ __('English') }}</option>
+                                                 <option value="fr" {{ old('language') == 'fr' ? 'selected' : '' }}>
+                                                     {{ __('French') }}</option>
+                                             </select>
+                                             @if ($errors->has('language'))
+                                                 <span class="invalid-feedback" style="display: block;" role="alert">
+                                                     <strong>{{ $errors->first('language') }}</strong>
+                                                 </span>
+                                             @endif
                                          </div>
                                      </div>
-                                 </form>
-                             </div>
-                         </div>
 
-                     </div>
+                                     <!-- Submit Button -->
+                                     <div class="col-md-12">
+                                         <button style="float: inline-end;" type="submit"
+                                             class="btn mt-2">{{ __('Save Details') }}</button>
+                                     </div>
+
+                                 </div>
+                     </form>
                  </div>
+
              </div>
          </div>
-     </div>
 
-     <!-- End Full Screen Modal-->
- @endsection
+         <!-- End Full Screen Modal-->
+     @endsection

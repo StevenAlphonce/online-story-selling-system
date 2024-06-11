@@ -29,8 +29,9 @@ class BrowseStoriesController extends Controller
     //Function that fetch all chapters that relate to a particular story
     public function storyChapters(Story $story)
     {
-
-        $chapters = $story->chapters; // Pointing relationship in the Story model
+        // Retrieve chapters where is_draft is false
+        $chapters = $story->chapters()->where('is_draft', false)->get();
+        // $chapters = $story->chapters; // Pointing relationship in the Story model
 
         return view('browse.story-preview', compact('story', 'chapters'));
     }

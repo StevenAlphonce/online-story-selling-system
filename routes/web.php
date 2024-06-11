@@ -26,7 +26,7 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::controller(AuthController::class)->group(function () {
   // Registration routes
   Route::get('register', 'show_registration_form');
-  Route::post('register', 'store_user');
+  Route::post('register', 'store_user')->name('register');
 
   // Verification route
   Route::get('verification/{token}', 'verify_user');
@@ -73,6 +73,7 @@ Route::group(['middleware' => ['role:admin', 'authmiddleware']], function () {
   ----------------------------------------------------------------------------*/
   Route::resource('dashboard/categories', CategoryController::class);
 });
+
 
 Route::group(['middleware' => ['authmiddleware']], function () {
   /**-----------------------------------------------------------------------

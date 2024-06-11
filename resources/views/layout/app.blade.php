@@ -34,7 +34,7 @@
     <link href="{{ url('css/welcome.css') }}" rel="stylesheet">
 
     <link href="{{ url('css/story.css') }}" rel="stylesheet">
-
+    @stack('style')
 </head>
 
 <body>

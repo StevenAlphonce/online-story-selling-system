@@ -3,6 +3,46 @@
 @if (Auth::User()->type == 'admin')
     @include('layout.includes._sidebar')
 @endif
+
+@push('style')
+    <style>
+        .position-relative {
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 20;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .overlay button {
+            display: none;
+        }
+
+        .col-md-8.col-lg-9:hover .overlay {
+            opacity: 1;
+        }
+
+        .col-md-8.col-lg-9:hover .overlay button {
+            display: inline-block;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+@endpush
 @section('content')
     <main
         @if (Auth::User()->type == 'admin') @php
@@ -118,11 +158,16 @@
                                         <div class="row mb-3">
                                             <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                                 Image</label>
-                                            <div class="col-md-8 col-lg-9">
-                                                <img src="{{ $user->profile && $user->profile->photo ? asset('storage/' . $user->profile->photo) : asset('image/profile_avatar.png') }}"
-                                                    alt="Profile_photo">
-                                                <div style="margin-left:30px" class="pt-2">
-                                                    <input type="file" name="photo" class="form-control">
+                                            <div class="col-md-8 col-lg-9 position-relative">
+                                                <img id="profile-photo"
+                                                    src="{{ $user->profile && $user->profile->photo ? asset('storage/' . $user->profile->photo) : asset('image/profile_avatar.png') }}"
+                                                    alt="Profile_photo" class="img-fluid">
+                                                <div class="overlay">
+                                                    <button class="btn btn-primary btn-sm"
+                                                        onclick="document.getElementById('photo-input').click();">Upload
+                                                        Cover</button>
+                                                    <input type="file" id="photo-input" name="photo"
+                                                        class="form-control d-none">
                                                 </div>
                                             </div>
                                         </div>

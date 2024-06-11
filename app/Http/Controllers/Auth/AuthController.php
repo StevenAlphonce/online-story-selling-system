@@ -36,8 +36,8 @@ class AuthController extends Controller
                 // ->numbers()
                 // ->symbols()
                 // ->uncompromised(),
-
-            ], 'type' => 'required|in:user,admin' // Ensure the type field is provided and valid
+            ],
+            // 'type' => 'required|in:user,admin' // Ensure the type field is provided and valid
         ]);
 
         $user = new User();
@@ -57,7 +57,6 @@ class AuthController extends Controller
         } else {
             $user->assignRole('user');
         }
-
 
 
         //Sending verification email to a user during registration

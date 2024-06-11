@@ -40,6 +40,7 @@ class StoryController extends Controller
     public function saveStory(Request $request)
     {
 
+        // dd($request);
         /**
          * Variables 
          *Get the authenticated user's ID and Category id
@@ -51,8 +52,8 @@ class StoryController extends Controller
         //Story requests validations (Form)
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'story_title' => 'min:5|max:100',
-            'story_description' => 'min:10|max:2500',
+            'story_title' => 'min:3|max:100',
+            'story_description' => 'min:10',
             'main_character' => 'min:2|max:20',
             'category' => 'required',
             'tags',
@@ -78,10 +79,10 @@ class StoryController extends Controller
         }
 
         $story->user_id = $user_id;
-        $story->description = $request->story_description;
-        $story->main_character = $request->main_character;
+        $story->description = trim($request->story_description);
+        $story->main_character = trim($request->main_character);
         // $story->category_id = $request->$category_id; 
-        $story->title = $request->story_title;
+        $story->title = trim($request->story_title);
         $story->tags = $request->tags;
         // $story->copyright = $request->copyright;
         $story->rating = $request->rating;
@@ -114,8 +115,6 @@ class StoryController extends Controller
     // Function that returns a view for a single story
     public function editStory($id)
     {
-        $isEdit = true;
-        //Variable to set form on editing mode
 
         $user_id = Auth::id(); // Variable to get the ID of the authenticated user
         $story = Story::where('user_id', $user_id)->find($id);
@@ -125,26 +124,24 @@ class StoryController extends Controller
         }
         $categories = Category::all();
 
-        return view('story.edit-story', compact('story', 'isEdit', 'categories'));
+        return view('story.edit-story', compact('story', 'categories'));
     }
 
     // Function to update (save modified fields) a single story
     public function updateStory(Request $request, string $id)
     {
-
         /**
          * Variables 
          *Get the authenticated user's ID and Category id
          */
         $user_id = Auth::id();
         $category_id = $request->input('category');
-        $isEdit = false;
 
         //Story requests validations (Form)
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'story_title' => 'min:5|max:100',
-            'story_description' => 'min:10|max:2500',
+            'story_title' => 'min:3|max:100',
+            'story_description' => 'min:10',
             'main_character' => 'min:2|max:20',
             'category' => 'required',
             'tags',
@@ -161,7 +158,6 @@ class StoryController extends Controller
 
             abort(404);
         }
-
 
 
         // Check if the image field is updated
@@ -188,12 +184,10 @@ class StoryController extends Controller
         // $story->copyright = $request->copyright;
         $story->rating = $request->rating;
 
-
         if ($story->update()) {
 
             // Detach existing categories and attach the new one
             $story->categories()->sync([$category_id]);
-
 
             return redirect()->back()->with('success', 'Story was updated');
         } else {
