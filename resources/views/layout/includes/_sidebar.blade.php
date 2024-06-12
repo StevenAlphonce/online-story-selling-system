@@ -10,17 +10,26 @@
         <!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="bi bi-menu-button-wide"></i>
                 <span>{{ __('Manage User') }}</span>
             </a>
         </li>
         <!-- End Manage user Nav -->
 
+        <!--Manage Story Nav -->
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>{{ __('Manage Story') }}</span>
+            </a>
+        </li>
+        <!-- End Manage Story Nav -->
+
         <li class="nav-item">
             <a class="nav-link" href="{{ url('dashboard/categories') }}">
                 <i class="bi bi-menu-button-wide"></i>
-                <span>{{ __('Categories') }}</span>
+                <span>{{ __('Manage Story Category') }}</span>
             </a>
         </li>
         <!-- End Manage user Nav -->

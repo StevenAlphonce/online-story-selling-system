@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BrowseStoriesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 
 //Route to view home page
 Route::get('/', [WelcomeController::class, 'index'])->middleware('guest');
@@ -63,6 +64,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
    * CATEGORY RESOURCE ROUTES
   ----------------------------------------------------------------------------*/
   Route::resource('dashboard/categories', CategoryController::class);
+
+  /**-------------------------------------------------------------------------
+   * USERS RESOURCE ROUTES
+  ----------------------------------------------------------------------------*/
+  Route::get('dashboard/users', [UserController::class, 'index'])->name('users.index');
+  Route::patch('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
 });
 
 /** *********************************************************************************** */
