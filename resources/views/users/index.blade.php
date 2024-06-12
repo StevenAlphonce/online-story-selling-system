@@ -46,7 +46,7 @@
                                             <td>
                                                 <!-- User Status Text -->
                                                 <span
-                                                    class="user-status-text">{{ $user->status ? 'Enabled' : 'Disabled' }}</span>
+                                                    class="user-status-text">{{ $user->is_enabled ? 'Enabled' : 'Disabled' }}</span>
                                             </td>
                                             <td>
                                                 <!-- Toggle switch for enabling/disabling users -->
@@ -57,7 +57,7 @@
                                                     <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox" name="status"
                                                             onchange="toggleUserStatus(this)"
-                                                            {{ $user->status ? 'checked' : '' }}>
+                                                            {{ $user->is_enabled ? 'checked' : '' }}>
                                                     </div>
                                                 </form>
                                             </td>
