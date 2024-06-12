@@ -1,8 +1,16 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-        <a href="{{ url('/') }}" class="logo d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between ">
+        <a href="  @guest
+{{ url('/') }}
+    @else
+        @if (Auth::user()->type == 'admin')
+            {{ route('admin.dashboard') }}
+        @else
+            {{ route('stories.all') }}
+        @endif @endguest"
+            class="logo d-flex align-items-center">
             <span style="color: var(--green);" class="d-none d-lg-block">
                 {{ __('Online Story Selling') }}
             </span>

@@ -1,6 +1,7 @@
 @extends('layout.app')
+@include('layout.includes._header')
 @section('content')
-    <div class="container">
+    <div style="margin-top: 50px;" class="container">
         <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
             <div class="container">
                 <div class="row justify-content-center">
@@ -68,4 +69,5 @@
         </section>
 
     </div>
+    @include('layout.includes._footer')
 @endsection

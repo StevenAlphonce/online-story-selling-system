@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\UserMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -15,11 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //Reader and Author middleware
 
         $middleware->alias([
-            'authmiddleware' => AuthMiddleware::class,
+            // 'authmiddleware' => AuthMiddleware::class,
+            'admin' => AdminMiddleware::class,
+            'user' => UserMiddleware::class
 
-            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
-            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
-            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

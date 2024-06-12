@@ -1,10 +1,6 @@
 <?php
 
-use App\Models\Story;
-use App\Models\Chapter;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ProfileController;
@@ -13,33 +9,39 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BrowseStoriesController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RolesPermissionController;
 
 //Route to view home page
-Route::get('/', [WelcomeController::class, 'index']);
+Route::get('/', [WelcomeController::class, 'index'])->middleware('guest');
 
+//Route to browse all stories
+Route::get('/all-stories', [BrowseStoriesController::class, 'index'])->name('stories.all');
+// Browse  stories by category
+Route::get('/stories/{category}', [BrowseStoriesController::class, 'showStoriesByCategory'])->name('stories.category');
+Route::get('story/{story}', [BrowseStoriesController::class, 'storyChapters'])->name('story.show');
+//Endpoint for Fetching Chapter Content
+Route::get('/stories/{story}/chapters/{chapter}', [ChapterController::class, 'showChapter'])->name('chapters.show');
+Route::get('/stories/{story}/chapters/{chapter}/content', [ChapterController::class, 'content'])->name('chapters.content');
 
 /**---------------------------------------------------------------
  * USER ATHENTICATION ROUTE GROUP
  ----------------------------------------------------------------*/
 Route::controller(AuthController::class)->group(function () {
-  // Registration routes
-  Route::get('register', 'show_registration_form');
-  Route::post('register', 'store_user')->name('register');
 
-  // Verification route
-  Route::get('verification/{token}', 'verify_user');
-
-  // Login routes
-  Route::get('login', 'show_login_form')->name('login');
-  Route::post('login', 'login');
-
-  // Password reset routes
-  Route::get('reset', 'reset_password_form')->name('password.reset');
-  Route::post('reset', 'reset_password');
-  Route::get('reset-password/{token}', 'changePasswordForm');
-  Route::post('reset-password/{token}', 'changePassword');
+  Route::middleware('guest')->group(function () {
+    // Registration routes
+    Route::get('register', 'show_registration_form');
+    Route::post('register', 'store_user')->name('register');
+    // Verification route
+    Route::get('verification/{token}', 'verify_user');
+    // Login routes
+    Route::get('login', 'show_login_form')->name('login');
+    Route::post('login', 'login');
+    // Password reset routes
+    Route::get('reset', 'reset_password_form')->name('password.reset');
+    Route::post('reset', 'reset_password');
+    Route::get('reset-password/{token}', 'changePasswordForm');
+    Route::post('reset-password/{token}', 'changePassword');
+  });
 
   // Logout route
   Route::get('logout', 'logout');
@@ -48,21 +50,10 @@ Route::controller(AuthController::class)->group(function () {
  **************END OF USER ATHENTICATION ROUTE GROUP*************
  ----------------------------------------------------------------*/
 
-//Route to browse all stories
-Route::get('/all-stories', [BrowseStoriesController::class, 'index'])->name('stories.all');
-
-// Browse  stories by category
-Route::get('/stories/{category}', [BrowseStoriesController::class, 'showStoriesByCategory'])->name('stories.category');
-Route::get('story/{story}', [BrowseStoriesController::class, 'storyChapters'])->name('story.show');
-//Endpoint for Fetching Chapter Content
-Route::get('/stories/{story}/chapters/{chapter}', [ChapterController::class, 'showChapter'])->name('chapters.show');
-Route::get('/stories/{story}/chapters/{chapter}/content', [ChapterController::class, 'content'])->name('chapters.content');
-
-
-Route::group(['middleware' => ['role:admin', 'authmiddleware']], function () {
+Route::group(['middleware' => ['auth', 'admin']], function () {
   // Admin routes
 
-  Route::get('dashboard', [DashboardController::class, 'dashboard']);
+  Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
   /**-----------------------------------------------------------------------
    * PROFILE RESOURCE ROUTES
   -------------------------------------------------------------------------*/
@@ -74,8 +65,9 @@ Route::group(['middleware' => ['role:admin', 'authmiddleware']], function () {
   Route::resource('dashboard/categories', CategoryController::class);
 });
 
+/** *********************************************************************************** */
 
-Route::group(['middleware' => ['authmiddleware']], function () {
+Route::group(['middleware' => ['auth', 'user']], function () {
   /**-----------------------------------------------------------------------
    * PROFILE RESOURCE ROUTES
   -------------------------------------------------------------------------*/
@@ -84,16 +76,8 @@ Route::group(['middleware' => ['authmiddleware']], function () {
   // Route::get('/profile/password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.password');
   Route::post('/profile', [ProfileController::class, 'changePassword'])->name('profile.password.update');
 
-  /**-------------------------------------------------------------------------
-   * CATEGORY RESOURCE ROUTES
-  ----------------------------------------------------------------------------*/
-  Route::resource('dashboard/categories', CategoryController::class);
-});
 
 
-
-
-Route::group(['middleware' => ['authmiddleware']], function () {
 
   /**-------------------------------------------------------------------------
   STORY  ROUTES

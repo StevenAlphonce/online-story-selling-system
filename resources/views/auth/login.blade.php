@@ -1,8 +1,8 @@
 @extends('layout.app')
+@include('layout.includes._header')
 @section('content')
-    <div class="container">
-
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+    <div style="margin-top: 50px;" class="container">
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-2">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
@@ -63,4 +63,5 @@
         </section>
 
     </div>
+    @include('layout.includes._footer')
 @endsection

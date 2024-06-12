@@ -101,7 +101,11 @@ class AuthController extends Controller
 
             if (!empty(Auth::user()->email_verified_at)) {
 
-                return  redirect('/');
+                if (Auth::user()->type == 'admin') {
+
+                    return redirect(route('admin.dashboard'));
+                }
+                return  redirect(route('stories.all'));
             } else {
 
                 //Send verification email(Token) to user

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,12 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!empty(Auth::check())) {
+
+        if (Auth::user()->type == 'user') {
 
             return $next($request);
-        } else {
-
-            Auth::logout();
-
-            return redirect(url('/'));
         }
+
+        return redirect()->back();
     }
 }
