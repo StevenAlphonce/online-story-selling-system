@@ -18,14 +18,28 @@
         <i class="{{ Request::is('dashboard', 'dashboard/*') ? 'bi bi-list toggle-sidebar-btn' : '' }}"></i>
     </div>
     <!-- End Logo -->
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="{{ route('search') }}">
-            @csrf
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
-    <!-- End Search Bar -->
+    @guest
+        <div class="search-bar">
+            <form class="search-form d-flex align-items-center" method="POST" action="{{ route('search') }}">
+                @csrf
+                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+        <!-- End Search Bar -->
+    @else
+        @if (Auth::user()->type == 'user')
+            <div class="search-bar">
+                <form class="search-form d-flex align-items-center" method="POST" action="{{ route('search') }}">
+                    @csrf
+                    <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                    <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+                </form>
+            </div>
+            <!-- End Search Bar -->
+        @endif
+    @endguest
+
     <nav class="header-nav ms-auto mr-lg-2">
         <ul class="d-flex">
             <li class="nav-item d-block d-lg-none">
