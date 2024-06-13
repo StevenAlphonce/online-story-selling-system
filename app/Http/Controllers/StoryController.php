@@ -233,4 +233,19 @@ class StoryController extends Controller
 
         return view('browse.search-results', compact('stories', 'query'));
     }
+
+
+    public function index()
+    {
+        $stories = Story::all();
+        return view('manage_story.index', compact('stories'));
+    }
+
+    public function toggleStatus(Story $story)
+    {
+        $story->is_enabled = !$story->is_enabled;
+        $story->save();
+
+        return response()->json(['status' => 'success', 'is_enabled' => $story->is_enabled]);
+    }
 }

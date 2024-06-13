@@ -19,9 +19,9 @@
 
         <!--Manage Story Nav -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('admin.stories') }}">
                 <i class="bi bi-menu-button-wide"></i>
-                <span>{{ __('Manage Story') }}</span>
+                <span>{{ __('Moderate Story') }}</span>
             </a>
         </li>
         <!-- End Manage Story Nav -->

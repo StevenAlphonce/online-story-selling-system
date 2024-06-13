@@ -15,7 +15,7 @@ class UserController extends Controller
         // Retrieve all users from the database
         $users = User::where('type', 'user')->get();
 
-        return view('users.index', compact('users'));
+        return view('manage_users.index', compact('users'));
     }
 
 
