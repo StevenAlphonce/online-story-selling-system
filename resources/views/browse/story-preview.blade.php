@@ -46,9 +46,9 @@
         </div>
         <div class="container mt-4">
             <div class="row">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <!-- Right Column: Story Content -->
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <div class="chapter-header">
                         <h5 id="chapter-title">
                             <!--Chapter heading  -->
@@ -71,7 +71,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-1"></div>
             </div>
         </div>
     </div>

@@ -26,7 +26,9 @@
                             <div class="col-8 col-md-9">
                                 <div class="story-category-description mt-1">
                                     <a href="{{ route('story.show', $story->id) }}"
-                                        class="card-title h5">{{ $story->title }} ({{ $story->status }})</a>
+                                        class="card-title h5">{{ $story->title }}
+                                        ({{ $story->status ? 'Completed Story' : 'Ongoing Story' }})
+                                    </a>
                                     <p class="text-muted mb-1 small">by {{ $story->user->name }}</p>
                                     <div class="row story-category-status">
                                         <span>

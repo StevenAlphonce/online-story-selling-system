@@ -29,7 +29,7 @@
         <ul class="d-flex">
             <li class="nav-item d-block d-lg-none">
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
-                    <i style="margin-left:-200px;" class="bi bi-search"></i>
+                    <i class="bi bi-search"></i>
                 </a>
             </li>
             <!-- End Search Icon-->
