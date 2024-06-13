@@ -27,14 +27,14 @@
     <!-- End Search Bar -->
     <nav class="header-nav ms-auto mr-lg-2">
         <ul class="d-flex">
-            <li class="nav-item d-block d-lg-none float-left">
+            <li class="nav-item d-block d-lg-none">
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
-                    <i class="bi bi-search"></i>
+                    <i style="margin-left:-200px;" class="bi bi-search"></i>
                 </a>
             </li>
             <!-- End Search Icon-->
 
-            <li style="margin-right: 50px;" class="nav-item dropdown">
+            <li style="margin-right: 25px;" class="nav-item dropdown">
                 <a class="nav-link " href="#" data-bs-toggle="dropdown">
                     <span class="d-md-block dropdown-toggle ps-2">Browse</span>
                 </a>
@@ -59,7 +59,7 @@
             <!-- End Browse Nav -->
 
 
-            <li style="margin-right: 50px;" class="nav-item dropdown">
+            <li style="margin-right: 25px;" class="nav-item dropdown">
                 <a class="nav-link " href="#" data-bs-toggle="dropdown">
                     <span class="d-md-block dropdown-toggle ps-2">Story</span>
                 </a>
