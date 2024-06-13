@@ -14,6 +14,9 @@ use App\Http\Controllers\UserController;
 //Route to view home page
 Route::get('/', [WelcomeController::class, 'index'])->middleware('guest');
 
+//Route for searching Story
+Route::post('/search', [StoryController::class, 'search'])->name('search');
+
 //Route to browse all stories
 Route::get('/all-stories', [BrowseStoriesController::class, 'index'])->name('stories.all');
 // Browse  stories by category

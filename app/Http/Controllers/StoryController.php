@@ -221,4 +221,16 @@ class StoryController extends Controller
         $story->delete();
         return redirect(url('stories'));
     }
+
+    //Function to search on the database
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $stories = Story::where('title', 'like', "%{$query}%")
+            ->orWhere('description', 'like', "%{$query}%")
+            ->orWhere('tags', 'like', "%{$query}%")
+            ->get();
+
+        return view('browse.search-results', compact('stories', 'query'));
+    }
 }
