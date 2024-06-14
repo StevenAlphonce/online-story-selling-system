@@ -139,7 +139,7 @@ class StoryController extends Controller
 
         //Story requests validations (Form)
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'story_title' => 'min:3|max:100',
             'story_description' => 'min:10',
             'main_character' => 'min:2|max:20',

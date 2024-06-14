@@ -45,8 +45,9 @@
                                         </span>
                                     </div>
 
-                                    <small
-                                        class="card-text story-category-desc">{{ Str::limit($story->description, 200) }}</small>
+                                    <small class="card-text story-category-desc">
+                                        {!! Str::limit($story->description) !!}
+                                    </small>
                                     <div class="story-tags mt-1">
                                         @foreach (array_slice(explode(',', $story->tags), 0, 3) as $tag)
                                             <span class="badge bg-secondary">{{ $tag }}</span>

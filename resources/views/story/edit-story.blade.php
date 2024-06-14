@@ -77,7 +77,7 @@
              </div>
              <div class="container mt-3">
                  <div class="row">
-                     <form class="row g-3" action="{{ route('story.update', $story->id) }}" method="POST"
+                     <form class="row g-3" id="story-form" action="{{ route('story.update', $story->id) }}" method="POST"
                          enctype="multipart/form-data">
                          @csrf
                          @method('PUT')
@@ -137,7 +137,10 @@
                                                  <div class="col-md-12 mt-2">
                                                      <label for="storyDescription"
                                                          class="form-label">{{ __('Description') }}</label>
-                                                     <textarea name="story_description" class="form-control" rows="7" cols="50">{{ old('story_description', $story->description) }}</textarea>
+                                                     <div id="quill-editor" class="mb-3" style="height: 200px;"></div>
+                                                     <textarea rows="3" class="mb-3 d-none" name="story_description" id="quill-editor-area">
+                                                        {!! old('story_description', $story->description) !!}
+                                                    </textarea>
                                                      @if ($errors->has('story_description'))
                                                          <span class="invalid-feedback" style="display: block;"
                                                              role="alert">
@@ -220,7 +223,6 @@
                                                          @endif
                                                      </div>
                                                  </div>
-
 
                                                  <div class="row">
                                                      <!-- Rating Field -->
@@ -323,6 +325,32 @@
      </div>
      </div>
      </div>
+     @push('scripts')
+         <script>
+             document.addEventListener('DOMContentLoaded', function() {
+                 var editor = new Quill('#quill-editor', {
+                     theme: 'snow'
+                 });
 
+                 var quillEditor = document.getElementById('quill-editor-area');
+
+                 // Load existing content into Quill editor
+                 var content = {!! json_encode(old('story_description', $story->description)) !!};
+                 editor.root.innerHTML = content;
+
+                 editor.on('text-change', function() {
+                     quillEditor.value = editor.root.innerHTML;
+                 });
+
+                 quillEditor.addEventListener('input', function() {
+                     editor.root.innerHTML = quillEditor.value;
+                 });
+
+                 document.getElementById('story-form').onsubmit = function() {
+                     quillEditor.value = editor.root.innerHTML;
+                 };
+             });
+         </script>
+     @endpush
      <!-- End Full Screen Modal-->
  @endsection

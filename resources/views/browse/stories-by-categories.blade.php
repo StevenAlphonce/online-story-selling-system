@@ -22,18 +22,18 @@
                                     </div>
                                 </div>
                                 <div class="col-8 col-md-9">
-                                    <div class="story-category-description mt-1">
+                                    <div class="story-category-description">
                                         <a href="{{ route('story.show', $story->id) }}"
                                             class="card-title h5">{{ $story->title }}
-                                            ({{ $story->status ? 'Completed Story' : 'Ongoing Story' }})</a>
+                                            ({{ $story->status ? 'Completed Story' : 'Ongoing Story' }})
+                                        </a>
                                         <p class="text-muted mb-1 small">by {{ $story->user->name }}</p>
                                         <div class="row story-category-status">
                                             <span><i class="bi bi-eye"></i> {{ $story->views }}</span>
                                             <span><i class="bi bi-heart"></i> {{ $story->likes }}</span>
                                             <span><i class="bi bi-chat-dots"></i> {{ $story->comments }}</span>
                                         </div>
-                                        <small
-                                            class="card-text story-category-desc">{{ Str::limit($story->description, 200) }}</small>
+                                        <small class="card-text story-category-desc">{!! Str::limit($story->description, 100) !!}</small>
                                         <div class="story-tags mt-1">
                                             @foreach (array_slice(explode(',', $story->tags), 0, 3) as $tag)
                                                 <span class="badge bg-secondary">{{ $tag }}</span>

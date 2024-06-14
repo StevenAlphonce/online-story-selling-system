@@ -1,6 +1,14 @@
 @extends('layout.app')
 @include('layout.includes._header')
 
+@push('style')
+    <style>
+        .chapter-body {
+            line-height: 1.6;
+            padding: 20px;
+        }
+    </style>
+@endpush
 @section('content')
     <!-- Full Screen Modal -->
     <div style="margin-top: 60px" class="main">
@@ -64,7 +72,7 @@
                         <p>No chapters available for this story.</p>
                     @else
                         <div style="text-align: justify;" id="chapter-content" class="chapter-body px-4">
-                            <!--Chapter content will be here-->
+                            {!! nl2br(e($story->content)) !!}
                         </div>
                         <div class="text-end mt-4">
                             <button id="next-chapter-btn" class="btn" style="display:none;">Next Chapter</button>
@@ -79,9 +87,6 @@
 @endsection
 
 @push('scripts')
-    <!-- Include jQuery if not already included -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
         $(document).ready(function() {
             function loadChapter(chapterLink) {

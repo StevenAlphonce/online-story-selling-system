@@ -19,6 +19,9 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
 
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+
     <!-- Vendor CSS Files -->
     <link href="{{ url('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url('vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
@@ -30,9 +33,7 @@
 
     <!-- Main CSS File -->
     <link href="{{ url('css/style.css') }}" rel="stylesheet">
-
     <link href="{{ url('css/welcome.css') }}" rel="stylesheet">
-
     <link href="{{ url('css/story.css') }}" rel="stylesheet">
     @stack('style')
 </head>
@@ -59,6 +60,7 @@
 
     <!--Jquery 3.6.0 for auto events on the website -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(e) {
