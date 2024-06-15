@@ -6,7 +6,7 @@
 
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header  justify-content-between">
+            <div style="top:60;" class="modal-header  justify-content-between">
                 <div class="modal-header-left">
                     <div class="back">
                         <a href="{{ route('story.edit', $story->id) }}">
@@ -27,8 +27,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="modal-form-wrapper card">
-                            <div class="card-body mt-5">
+                        <div style="margin-top: 70px;" class="modal-form-wrapper card pt-4">
+                            <div class="card-body">
                                 <form class="form" method="POST" id="chapter-form"
                                     action="{{ $isEdit ? route('chapter.update', ['story' => $story->id, 'chapter' => $chapter->id]) : route('chapter.store', ['story' => $story->id]) }}">
                                     @csrf

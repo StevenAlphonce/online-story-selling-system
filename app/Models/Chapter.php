@@ -26,4 +26,11 @@ class Chapter extends Model
         // Use Carbon (included with Laravel) to format the date
         return \Carbon\Carbon::parse($value)->diffForHumans();
     }
+
+
+    //Chapter visitors relationship
+    public function visits()
+    {
+        return $this->hasMany(ChapterVisit::class);
+    }
 }

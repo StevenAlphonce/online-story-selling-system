@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Manage Stories</h5>
-                <table class="table table-striped">
+                <table class="table  table-sm table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

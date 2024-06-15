@@ -138,8 +138,6 @@ margin:20px 0px 10px 0px;
 }
 
 
-
-
 }
 /* Sory Modal style */
 
@@ -155,8 +153,8 @@ margin:20px 0px 10px 0px;
 .modal-header{
   padding: 0px;
   position: sticky;
-  top: 0;
-  z-index: 1050;
+  top: 10;
+  z-index: 1;
   background: white;
 }
 
@@ -166,7 +164,7 @@ margin:20px 0px 10px 0px;
 
 .modal-header-left .back{
   font-size: 30px;
-  margin-top: 8px;
+  margin-top: 10px;
   padding: 10px;
   cursor: pointer;
   transition: 0.5s;
@@ -194,8 +192,24 @@ padding: 0;
 }
 
 .modal-header .modal-header-right{
-margin-right: 50px;
+  margin-right: 50px;
 }
+
+.modal-header .modal-header-right .vote{
+  display: inline-flex;
+  width:100px;
+  margin-top: 15px;
+}
+
+.modal-header .modal-header-right .vote i{
+  margin-top: 3px;
+}
+
+.modal-header .modal-header-right .vote i,span{
+  padding: 3px;
+}
+
+.modal-header .modal-header-right
 
 .modal-header .modal-header-right button{
   color:white;
@@ -261,4 +275,27 @@ padding: 15px;
   font-size: small;
  }
 
+ /* Chapter style */
+ .chapter{
+  margin-top: 30px;
+ }
+
+ .chapter h5{
+  font-size: 50px;
+  margin-left: 20%;
+ }
+
+ .chapter .chapter-stat{
+  /* color:white; */
+  width: 300px;
+  padding: 5px;
+  border-radius: 10px;
+  justify-content:space-around;
+  margin-left: 32%;
+  /* background-color: var(--green); */
+ }
+
+ .chapter .chapter-stat text{
+ padding: 5px;
+ }
 

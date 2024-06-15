@@ -72,13 +72,13 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
    *ROUTES FOR MANAGING USERS
   ----------------------------------------------------------------------------*/
   Route::get('dashboard/users', [UserController::class, 'index'])->name('users.index');
-  Route::patch('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
+  Route::patch('dashboard/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
 
   /**-------------------------------------------------------------------------
    * ROUTES FOR MANAGING STORIES
   ----------------------------------------------------------------------------*/
-  Route::get('/admin/stories', [StoryController::class, 'index'])->name('admin.stories');
-  Route::post('/admin/stories/toggle/{story}', [StoryController::class, 'toggleStatus'])->name('admin.stories.toggle');
+  Route::get('dashboard/stories', [StoryController::class, 'index'])->name('admin.stories');
+  Route::post('dashboard/stories/toggle/{story}', [StoryController::class, 'toggleStatus'])->name('admin.stories.toggle');
 });
 
 /** *********************************************************************************** */

@@ -17,6 +17,7 @@ class ChapterController extends Controller
 
         $story = Story::find($id);
 
+
         return view('story.create-edit-chapter', compact('story'));
     }
 
