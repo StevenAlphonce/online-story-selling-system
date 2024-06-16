@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use Stripe\Stripe;
+use Stripe\Account;
+
 
 class StoryController extends Controller
 {
@@ -32,6 +35,7 @@ class StoryController extends Controller
          */
         $categories = Category::all();
         $isEdit = false;
+
 
         return view('story.create-story', compact('categories', 'isEdit'));
     }

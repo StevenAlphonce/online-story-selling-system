@@ -244,7 +244,7 @@ background-color:var(--light-color) ;
 
 /* Story filtered */
  .story-category-single{
-  height: 300px;
+  height: 200px;
   padding: 8px;
   margin: 0px;
   /* border: var(--border); */
@@ -252,7 +252,7 @@ background-color:var(--light-color) ;
 
  @media screen and (max-width:770px) {
   .story-category-single {
-      height: 350px;
+      height: 200px;
   }
  }
 
@@ -277,25 +277,8 @@ padding: 15px;
 
  /* Chapter style */
  .chapter{
-  margin-top: 30px;
+  padding-top: 10px;
  }
 
- .chapter h5{
-  font-size: 50px;
-  margin-left: 20%;
- }
 
- .chapter .chapter-stat{
-  /* color:white; */
-  width: 300px;
-  padding: 5px;
-  border-radius: 10px;
-  justify-content:space-around;
-  margin-left: 32%;
-  /* background-color: var(--green); */
- }
-
- .chapter .chapter-stat text{
- padding: 5px;
- }
 

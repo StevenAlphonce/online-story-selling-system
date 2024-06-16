@@ -9,11 +9,6 @@ class Chapter extends Model
 {
     use HasFactory;
 
-    /**The chapter that belogs to story */
-    public function story()
-    {
-        return $this->belongsTo(Story::class);
-    }
 
     /**
      * Accessor for readable updated_at attribute.
@@ -27,6 +22,11 @@ class Chapter extends Model
         return \Carbon\Carbon::parse($value)->diffForHumans();
     }
 
+    /**The chapter that belogs to story */
+    public function story()
+    {
+        return $this->belongsTo(Story::class);
+    }
 
     //Chapter visitors relationship
     public function visits()

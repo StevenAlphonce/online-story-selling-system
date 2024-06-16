@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->float('price');
             $table->string('type');
-            $table->foreignId('stories_id')->references('id')->on('stories');
+            $table->unsignedBigInteger('story_id');
+            $table->foreign('story_id')->references('id')->on('stories')->onDelete('cascade');
             $table->timestamps();
         });
     }

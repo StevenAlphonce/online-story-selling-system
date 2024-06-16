@@ -29,6 +29,7 @@
                       <div class="row">
                           @foreach ($stories as $story)
                               <div class="story-single row">
+
                                   <div class="story-cover col-md-2">
                                       <img class="img"
                                           src="{{ $story->cover ? asset('storage/' . $story->cover) : asset('image/no-cover.png') }}"

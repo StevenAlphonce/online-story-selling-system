@@ -12,6 +12,19 @@ class Story extends Model
 {
     use HasFactory;
 
+
+    /**
+     * Accessor for readable updated_at attribute.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        // Use Carbon (included with Laravel) to format the date
+        return \Carbon\Carbon::parse($value)->diffForHumans();
+    }
+
     /**
      * Get the user that owns the story.
      */
@@ -31,21 +44,15 @@ class Story extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    /**
-     * Accessor for readable updated_at attribute.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function getUpdatedAtAttribute($value)
-    {
-        // Use Carbon (included with Laravel) to format the date
-        return \Carbon\Carbon::parse($value)->diffForHumans();
-    }
-
-    /** The story that that has many chapers */
+    /** Establishes relationship between this story with its chapters */
     public function chapters()
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    /**Story stracks all its chapters prices */
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 }
