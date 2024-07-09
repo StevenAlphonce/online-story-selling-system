@@ -1,15 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\BrowseStoriesController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\BrowseStoriesController;
 
 //Route to view home page
 Route::get('/', [WelcomeController::class, 'index'])->middleware('guest');
@@ -90,7 +91,7 @@ Route::group(['middleware' => ['auth', 'user']], function () {
   Route::get('user-profile', [ProfileController::class, 'index'])->name('user.profile');
   Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
   // Route::get('/profile/password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.password');
-  Route::post('/profile', [ProfileController::class, 'changePassword'])->name('profile.password.update');
+  Route::post('/profile', [ProfileController::class, 'updatePaymentInfo'])->name('profile.updatepaymentinfo');
 
 
 
@@ -113,4 +114,11 @@ Route::group(['middleware' => ['auth', 'user']], function () {
   Route::get('story/{story}/chapter/{chapter}/write', [ChapterController::class, 'write'])->name('chapter.write');
   Route::put('story/{story}/chapter/{chapter}', [ChapterController::class, 'update'])->name('chapter.update');
   Route::delete('story/{story}/chapter/{chapter}', [ChapterController::class, 'destroy'])->name('chapter.delete');
+
+  /**-------------------------------------------------------------------------
+  PAYPAL ROUTES
+  ----------------------------------------------------------------------------*/
+  Route::post('paypal', [PaypalController::class, 'paypal'])->name('paypal');
+  Route::get('success', [PaypalController::class, 'success'])->name('success');
+  Route::get('cancel', [PaypalController::class, 'cancel'])->name('cancel');
 });

@@ -35,19 +35,24 @@
             padding: 20px;
             text-align: justify;
         }
+
+        .blurred {
+            filter: blur(5px);
+            pointer-events: none;
+        }
     </style>
 @endpush
+
 @section('content')
     <!-- Full Screen Modal -->
     <div style="margin-top: 60px" class="main">
 
         <div class="modal-header justify-content-between">
-            <!--The story reading modal-header-left  -->
+            <!-- The story reading modal-header-left -->
             <div style="width: 500px;" class="modal-header-left">
 
                 <button style="font-size: 30px;marin-left:30px;" class="not-btn">
-                    <i class="bi bi-chevron-compact-left" onclick="history.back()">
-                    </i>
+                    <i class="bi bi-chevron-compact-left" onclick="history.back()"></i>
                 </button>
 
                 <div style="margin-left: 20px" class="status">
@@ -69,25 +74,36 @@
         <div class="container-fluid mt-2">
             <div class="row">
                 <!-- Table of Contents -->
-                <div class="col-md-3 toc">
+                <div class="col-md-4 toc">
                     <h5>{{ $story->title }} Table of Contents</h5>
+                    <p>{!! $story->description !!}</p>
                     <ul id="toc-list">
                         @foreach ($chapters as $index => $chapter)
                             <li data-chapter-index="{{ $index }}">
                                 <span>{{ $index + 1 }}</span> {{ $chapter->title }}
-                                <button class="buy-btn">Buy chapter</button>
+                                <span style="color:green; margin-left:30px;padding:5px;font-weight:bolder;">
+                                    Tsh {{ $chapter->price->price }} /=
+                                </span>
+                                <form action="{{ route('paypal') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="chapter_id" value="{{ $chapter->id }}" />
+                                    <input type="hidden" name="price" value="{{ $chapter->price->price ?? 0 }}" />
+                                    <button
+                                        style="background-color:green;border-radius:9px; color:white; margin-left:30px; margin-top:-25px;padding:5px;"
+                                        type="submit" class="buy-btn">{{ 'Buy Now' }}</button>
+                                </form>
                                 <hr>
                             </li>
                         @endforeach
                     </ul>
                 </div>
                 <!-- Chapter Content -->
-                <div class="col-md-9 chapter-content">
+                <div class="col-md-8 chapter-content">
                     <!-- Chapter Details will be loaded here dynamically -->
                 </div>
             </div>
         </div>
-        <!-- End Full Screen Modal-->
+        <!-- End Full Screen Modal -->
     @endsection
 
     @push('scripts')
@@ -107,7 +123,6 @@
                     <div class="chapter-body">
                         ${selectedChapter.content}
                     </div>
-                    
                 </div>
             `;
                 $('.chapter-content').html(chapterContent);

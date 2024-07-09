@@ -68,10 +68,26 @@
                                         <label class="form-check-label" for="is_draft">
                                             Save as Draft
                                         </label>
+
+                                    </div>
+                                    <div style="margin-top: -50px; margin-bottom:0" class="form-check float-end mb-4">
+                                        <input type="hidden" name="is_free" value="0">
+                                        <input class="form-check-input" type="checkbox" name="is_free" id="is_free"
+                                            value="1">
+                                        <label class="form-check-label" for="is_draft">
+                                            Set as free
+                                        </label>
+                                        <div class="price pl-0">
+                                            <label class="form-check-label mb-2" for="price">
+                                                Chapter price
+                                            </label>
+                                            <input style="width: 50%;" class="form-control" type="number" name="price"
+                                                value="{{ old('price', $chapter->price->price ?? '') }}">
+                                        </div>
+
                                     </div>
                                     <div class="form-bottom">
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="submitForm(true)">Save</button>
+                                        <button type="button" class="btn" onclick="submitForm(true)">Save</button>
                                     </div>
                                 </form>
                             </div>

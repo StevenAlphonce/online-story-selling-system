@@ -49,10 +49,4 @@ class Story extends Model
     {
         return $this->hasMany(Chapter::class);
     }
-
-    /**Story stracks all its chapters prices */
-    public function prices()
-    {
-        return $this->hasMany(Price::class);
-    }
 }

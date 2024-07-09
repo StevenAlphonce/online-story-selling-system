@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //Stripe Account
-            $table->string('stripe_account_id')->nullable();
+            $table->string('paypal_account')->nullable();
         });
     }
 
@@ -24,7 +23,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->dropColumn('stripe_account_id');
+            $table->dropColumn('paypal_account');
         });
     }
 };

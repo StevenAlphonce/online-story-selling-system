@@ -102,14 +102,19 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#profile-settings">Settings</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-paymentinfo">Edit
+                                        payment Information</button>
                                 </li>
 
                                 <li class="nav-item">
                                     <button class="nav-link" data-bs-toggle="tab"
-                                        data-bs-target="#profile-change-password">Change Password</button>
+                                        data-bs-target="#profile-settings">Settings</button>
                                 </li>
+
+                                {{-- <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#profile-change-password">Change Password</button>
+                                </li> --}}
 
                             </ul>
                             <div class="tab-content pt-2">
@@ -278,7 +283,32 @@
 
                                 </div>
 
-                                <div class="tab-pane fade pt-3" id="profile-change-password">
+                                <div class="tab-pane fade pt-3" id="profile-paymentinfo">
+                                    <!-- Change Password Form -->
+                                    <form action="{{ route('profile.updatepaymentinfo') }}" method="POST">
+                                        @csrf
+                                        <div class="row mb-3">
+                                            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Paypal
+                                                Account</label>
+                                            <div class="col-md-8 col-lg-9">
+                                                <input name="paypal_account" type="email" class="form-control"
+                                                    id="paypalAccount"
+                                                    value="{{ old('paypal_account', $user->paypal_account ?? '') }}">
+                                            </div>
+                                            <div style="color:red;font-size:12px;">{{ $errors->first('paypal_account') }}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="text-center">
+                                            <button type="submit" class="btn">Submit Account</button>
+                                        </div>
+                                    </form>
+                                    <!-- End Change Password Form -->
+
+                                </div>
+
+                                {{-- <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
                                     <form action="{{ route('profile.password.update') }}" method="POST">
                                         @csrf
@@ -325,7 +355,7 @@
                                     </form>
                                     <!-- End Change Password Form -->
 
-                                </div>
+                                </div> --}}
 
                             </div><!-- End Bordered Tabs -->
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Price;
 use App\Models\Story;
 use App\Models\Chapter;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ChapterController extends Controller
@@ -37,15 +38,17 @@ class ChapterController extends Controller
      */
     public function store(Request $request, Story $story)
     {
-
-        $isEdit = false;
         // dd($request);
+        $isEdit = false;
+
         $categories = Category::all();
 
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'min:50',
             'is_draft' => 'boolean',
+            'is_free' => 'boolean',
+            'price' => 'numeric'
         ]);
 
         $chapterNumber = $story->chapters()->count() + 1;
@@ -56,7 +59,15 @@ class ChapterController extends Controller
         $chapter->title = $request->title;
         $chapter->content = trim($request->content);
         $chapter->is_draft = $request->is_draft;
-        $chapter->save();
+        if ($chapter->save()) {
+
+            $price = new Price();
+            $price->story_id = $story->id;
+            $price->chapter_id = $chapter->id;
+            $price->price = $request->price;
+
+            $price->save();
+        }
 
         return view('story.edit-story', compact('story', 'isEdit', 'categories'));
     }
@@ -92,9 +103,8 @@ class ChapterController extends Controller
     /**
      * Update the specified Chapter in storage.
      */
-    public function update(Request $request, Story $story, Chapter $chapter)
+    public function update(Request $request, Story $story, Chapter $chapter, Price $price)
     {
-        // dd($request);
         $isEdit = true;
         $categories = Category::all();
 
@@ -102,6 +112,8 @@ class ChapterController extends Controller
             'title' => 'required|max:255',
             'content' => 'min:50',
             'is_draft' => 'boolean',
+            'is_free' => 'boolean',
+            'price' => 'numeric'
         ]);
 
         // Update the existing chapter's attributes
@@ -110,13 +122,31 @@ class ChapterController extends Controller
         $chapter->is_draft = $request->is_draft;
 
         // Save the updated chapter
-        if (!$chapter->save()) {
+        if ($chapter->save()) {
+            // Check if there's an existing price record for this chapter
+            $existingPrice = Price::where('story_id', $story->id)
+                ->where('chapter_id', $chapter->id)
+                ->first();
 
+            if ($existingPrice) {
+                // Update existing price record
+                $existingPrice->price = $request->price;
+                $existingPrice->save();
+            } else {
+                // Create new price record if it doesn't exist
+                $newPrice = new Price;
+                $newPrice->story_id = $story->id;
+                $newPrice->chapter_id = $chapter->id;
+                $newPrice->price = $request->price;
+                $newPrice->save();
+            }
+        } else {
             return redirect()->back();
         }
 
         return view('story.edit-story', compact('story', 'isEdit', 'categories'));
     }
+
 
     /**
      * Remove the specified Chapter from storage.
@@ -139,6 +169,10 @@ class ChapterController extends Controller
     public function content($storyId, $chapterId)
     {
         $chapter = Chapter::where('story_id', $storyId)->where('id', $chapterId)->firstOrFail();
-        return response()->json(['title' => $chapter->title, 'content' => $chapter->content]);
+
+        return response()->json([
+            'title' => $chapter->title,
+            'content' => $chapter->content
+        ]);
     }
 }

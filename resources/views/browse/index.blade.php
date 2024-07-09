@@ -9,7 +9,7 @@
                 @if ($stories->isEmpty())
                     <div class="story-category-single col-md-12">
                         <p style="" class="card-title h5 text-center mt-5">
-                            {{ __('We cant find any Story on this Category right now!') }}
+                            {{ __('We cant find any Story  right now!') }}
                         </p>
                     </div>
                 @else
@@ -23,7 +23,7 @@
                                     </div>
                                 </div>
                                 <div class="col-8 col-md-9">
-                                    <div class="story-category-description mt-1">
+                                    <div class="story-category-description  mt-1">
                                         <a href="{{ route('story.show', $story->id) }}"
                                             class="card-title h5">{{ $story->title }}
                                             ({{ $story->status ? 'Completed Story' : 'Ongoing Story' }})
@@ -38,16 +38,14 @@
                                                 <i class="bi bi-heart"></i>
                                                 {{ $story->likes }}
                                             </span>
-                                            <span>
-                                                <i class="bi bi-chat-dots"></i>
-                                                {{ $story->comments }}
-                                            </span>
+
                                         </div>
 
-                                        <small class="card-text story-category-desc">
-                                            {!! Str::limit($story->description) !!}
-                                        </small>
-                                        <div class="story-tags mt-1">
+                                        <div class="story-category-desc">
+                                            {!! mb_substr($story->description, 0, 1128) !!}
+                                        </div>
+
+                                        <div class="story-tags">
                                             @foreach (array_slice(explode(',', $story->tags), 0, 3) as $tag)
                                                 <span class="badge bg-secondary">{{ $tag }}</span>
                                             @endforeach

@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->float('price');
-            $table->string('type');
+            $table->float('price')->default(0.00);
+            $table->enum('type', array('story', 'chapter'));
+            $table->unsignedBigInteger('chapter_id');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
             $table->unsignedBigInteger('story_id');
             $table->foreign('story_id')->references('id')->on('stories')->onDelete('cascade');
             $table->timestamps();

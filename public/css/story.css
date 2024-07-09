@@ -143,9 +143,6 @@ margin:20px 0px 10px 0px;
 
 /* Image uploader on story modal */
 
-
-
-
 .modal-dialog .modal-content{
   height: auto;
 }
@@ -273,6 +270,15 @@ padding: 15px;
   width: 100%;
   display: inline-block;
   font-size: small;
+ }
+
+ .story-category-desc{
+  font-size: small;
+  margin-bottom: 0px;
+ }
+
+ .story-tags{
+  margin-top: 0px;
  }
 
  /* Chapter style */

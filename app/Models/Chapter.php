@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Price;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Chapter extends Model
 {
@@ -32,5 +33,11 @@ class Chapter extends Model
     public function visits()
     {
         return $this->hasMany(ChapterVisit::class);
+    }
+
+    /**Story stracks all its chapters prices */
+    public function price()
+    {
+        return $this->hasOne(Price::class);
     }
 }

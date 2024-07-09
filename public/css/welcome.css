@@ -85,6 +85,7 @@ background-color: var(--dark-color);
   background: var(--green);
   z-index: -1;
   transition: 0.5s;
+  padding: 0px;
 }
 
 .banner-btn a:hover span {

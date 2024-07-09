@@ -47,6 +47,7 @@ class ProfileController extends Controller
         }
 
         if ($user->profile) {
+
             $user->profile->update($profileData);
         } else {
             $user->profile()->create($profileData);
@@ -55,46 +56,20 @@ class ProfileController extends Controller
         return back()->with('success', 'Profile updated successfully.');
     }
 
-
     /**
-     * Update Password from profile.
+     * Update paypal Account iformation information.
      */
-    public function changePassword(Request $request)
+    public function updatePaymentInfo(Request $request)
     {
         $request->validate([
-            'password' => 'required',
-            'newpassword' => 'required|min:8',
-            'renewpassword' => 'required|same:newpassword',
+            'paypal_account' => 'required|email',
         ]);
 
-        $user = Auth::user();
-
-        if (!Hash::check($request->password, $user->password)) {
-
-            return back()->with(['error' => 'Current password does not match']);
-        }
-
-        $user->password = Hash::make($request->newpassword);
+        $user = auth()->user();
+        $user->paypal_account = $request->paypal_account;
 
         $user->save();
 
-        // Send notification email
-        $this->sendPasswordChangeNotification($user);
-
-        return back()->with('success', 'Password changed successfully');
-    }
-
-    protected function sendPasswordChangeNotification($user)
-    {
-        $resetLink = route('password.reset');
-        $details = [
-            'email' => $user->email,
-            'resetLink' => $resetLink,
-        ];
-
-        Mail::send('emails.password-change-notification', $details, function ($message) use ($user) {
-            $message->to($user->email)
-                ->subject('Password Changed Notification');
-        });
+        return redirect()->back()->with('success', 'PayPal account updated successfully.');
     }
 }
