@@ -82,16 +82,18 @@
                             <li data-chapter-index="{{ $index }}">
                                 <span>{{ $index + 1 }}</span> {{ $chapter->title }}
                                 <span style="color:green; margin-left:30px;padding:5px;font-weight:bolder;">
-                                    Tsh {{ $chapter->price->price }} /=
+                                    USD {{ $chapter->price->price }} $
                                 </span>
-                                <form action="{{ route('paypal') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="chapter_id" value="{{ $chapter->id }}" />
-                                    <input type="hidden" name="price" value="{{ $chapter->price->price ?? 0 }}" />
-                                    <button
-                                        style="background-color:green;border-radius:9px; color:white; margin-left:30px; margin-top:-25px;padding:5px;"
-                                        type="submit" class="buy-btn">{{ 'Buy Now' }}</button>
-                                </form>
+                                @if ($story->user_id !== Auth::id())
+                                    <form class="purchase-form" action="{{ route('paypal') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="chapter_id" value="{{ $chapter->id }}" />
+                                        <input type="hidden" name="price" value="{{ $chapter->price->price ?? 0 }}" />
+                                        <button
+                                            style="background-color:green;border-radius:9px; color:white; margin-left:30px; margin-top:-25px;padding:5px;"
+                                            type="submit" class="buy-btn">{{ 'Buy Now' }}</button>
+                                    </form>
+                                @endif
                                 <hr>
                             </li>
                         @endforeach

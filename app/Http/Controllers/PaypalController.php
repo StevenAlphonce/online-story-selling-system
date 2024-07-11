@@ -15,6 +15,21 @@ class PaypalController extends Controller
 {
   public function paypal(Request $request)
   {
+    $chapterId = $request->chapter_id;
+    $userId = Auth::user()->id;
+
+    // Check if the user has already purchased the chapter
+    $existingPurchase = Purchase::where('chapter_id', $chapterId)
+      ->where('user_id', $userId)
+      ->first();
+
+    if ($existingPurchase) {
+      return response()->json(['error' => 'You have already purchased this chapter.']);
+    }
+
+    $user = Auth::user();
+    // Check if user has a PayPal account
+
     $provider = new PayPalClient;
     $provider->setApiCredentials(config('paypal'));
     $paypalTokenData = $provider->getAccessToken();
@@ -26,35 +41,43 @@ class PaypalController extends Controller
       return redirect()->route('cancel')->withErrors('Failed to retrieve PayPal access token.');
     }
 
-    $response = $provider->createOrder([
-      "intent" => "CAPTURE",
-      "application_context" => [
-        "return_url" => route('success'),
-        "cancel_url" => route('cancel')
-      ],
-      "purchase_units" => [
-        [
-          "amount" => [
-            "currency_code" => "USD",
-            "value" => $request->price
+    if ($user->paypal_account) {
+
+      $response = $provider->createOrder([
+        "intent" => "CAPTURE",
+        "application_context" => [
+          "return_url" => route('success'),
+          "cancel_url" => route('cancel')
+        ],
+        "purchase_units" => [
+          [
+            "amount" => [
+              "currency_code" => "USD",
+              "value" => $request->price
+            ]
           ]
         ]
-      ]
-    ]);
+      ]);
 
-    if (isset($response['id']) && $response['id'] != null) {
-      foreach ($response['links'] as $link) {
-        if ($link['rel'] == 'approve') {
-          session()->put('chapter_id', $request->chapter_id);
-          session()->put('chapter_title', $request->chapter_title);
-          session()->put('amount', $request->price);
-          return redirect()->away($link['href']);
+      if (isset($response['id']) && $response['id'] != null) {
+        foreach ($response['links'] as $link) {
+          if ($link['rel'] == 'approve') {
+            session()->put('chapter_id', $request->chapter_id);
+            session()->put('chapter_title', $request->chapter_title);
+            session()->put('amount', $request->price);
+
+            return redirect()->away($link['href']);
+          }
         }
+      } else {
+        return redirect()->route('cancel');
       }
-    } else {
-      return redirect()->route('cancel');
     }
+    Log::warning('User does not have a PayPal account', ['user_id' => $user->id]);
+    return redirect(route('user.profile'));
   }
+
+
 
   public function success(Request $request)
   {
@@ -104,7 +127,7 @@ class PaypalController extends Controller
       // Calculate the amounts
       $amount = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
 
-      $creatorAmount = $amount * 0.70;
+      $creatorAmount = $amount * 0.90;
 
       // Handle actual fund transfer to creator's PayPal account
       $this->sendPayout($creator->paypal_account, $creatorAmount, $paypalToken);

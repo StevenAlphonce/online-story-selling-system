@@ -149,48 +149,49 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        @if (Auth::User()->type == 'admin')
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center"
+                                href="@if (Auth::user()->type == 'admin') {{ url('dashboard') }}@else
+                                {{ route('user.dashboard') }} @endif">
+                                <i class="bi bi-speedometer2"></i>
+                                <span>{{ Auth::user()->type == 'admin' ? 'Dashboard' : 'Analytic' }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        @if (Auth::user()->type == 'user')
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ url('dashboard') }}">
-                                    <i class="bi bi-speedometer2"></i>
-                                    <span>Dashboard</span>
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('user.profile') }}">
+                                    <i class="bi bi-person"></i>
+                                    <span>My profile</span>
                                 </a>
                             </li>
                         @endif
 
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('user.profile') }}">
-                                <i class="bi bi-person"></i>
-                                <span>My profile</span>
-                            </a>
-                        </li>
-
-                        <li>
+                        {{-- <li>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <i class="bi bi-files"></i>
                                 <span>Library</span>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li>
                             <hr class="dropdown-divider">
                         </li>
 
-                        <li>
+                        {{-- <li>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <i class="bi bi-option"></i>
                                 <span>Language: English</span>
                             </a>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <i class="bi bi-question-circle"></i>
                                 <span> Help?</span>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li>
                             <hr class="dropdown-divider">

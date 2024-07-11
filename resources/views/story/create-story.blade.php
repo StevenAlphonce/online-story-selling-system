@@ -176,7 +176,7 @@
 
                                          <!-- Copyright Field -->
                                          <div class="col-md-6">
-                                             <label for="copyright" class="form-label">{{ __('Copyright') }}</label>
+                                             {{-- <label for="copyright" class="form-label">{{ __('Copyright') }}</label>
                                              <select class="form-select" name="copyright" id="copyright" required>
                                                  <option value="">{{ __('Select Copyright') }}</option>
                                                  <option value="ARR" {{ old('copyright') == 'ARR' ? 'selected' : '' }}>
@@ -190,24 +190,24 @@
                                                  <span class="invalid-feedback" style="display: block;" role="alert">
                                                      <strong>{{ $errors->first('copyright') }}</strong>
                                                  </span>
-                                             @endif
+                                             @endif --}}
                                          </div>
                                      </div>
 
                                      <div class="row mt-2">
                                          <!-- Rating Field -->
-                                         <div class="col-md-6 form-check form-switch">
+                                         {{-- <div class="col-md-6 form-check form-switch">
                                              <label style="margin:8px 0 20px 0;" class="form-check-label"
                                                  for="flexSwitchCheckChecked">{{ __('Allow Rating') }}</label>
                                              <input type="hidden" name="rating" value="0">
                                              <input style="margin:10px 5px 25px 0;" class="form-check-input"
                                                  type="checkbox" name="rating" id="flexSwitchCheckChecked"
                                                  value="1" {{ old('rating') ? 'checked' : '' }}>
-                                         </div>
+                                         </div> --}}
 
                                          <!-- Language Field -->
                                          <div class="col-md-6">
-                                             <label for="language" class="form-label">{{ __('Language') }}</label>
+                                             {{-- <label for="language" class="form-label">{{ __('Language') }}</label>
                                              <select class="form-select" name="language" id="language" required>
                                                  <option value="">{{ __('Select Language') }}</option>
                                                  <option value="ksw" {{ old('language') == 'ksw' ? 'selected' : '' }}>
@@ -221,7 +221,9 @@
                                                  <span class="invalid-feedback" style="display: block;" role="alert">
                                                      <strong>{{ $errors->first('language') }}</strong>
                                                  </span>
-                                             @endif
+                                             @endif --}}
+
+
                                          </div>
                                      </div>
 

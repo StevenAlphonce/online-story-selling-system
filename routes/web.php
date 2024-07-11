@@ -85,9 +85,12 @@ Route::group(['middleware' => ['auth', 'admin']], function () {
 /** *********************************************************************************** */
 
 Route::group(['middleware' => ['auth', 'user']], function () {
+
   /**-----------------------------------------------------------------------
    * PROFILE RESOURCE ROUTES
   -------------------------------------------------------------------------*/
+  Route::get('analytics', [ProfileController::class, 'analytic'])->name('user.dashboard');
+
   Route::get('user-profile', [ProfileController::class, 'index'])->name('user.profile');
   Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
   // Route::get('/profile/password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.password');

@@ -6,40 +6,40 @@
 
 @push('style')
     <style>
-        .position-relative {
-            position: relative;
+        .upload-btn {
+            margin-left: 10%;
+            margin-top: 10%;
+
+
         }
 
-        .overlay {
+        .position-relative .overlay {
             position: absolute;
-            top: 0;
-            left: 20;
+            bottom: 0;
+            left: 0;
             right: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
+            top: 0;
+            /* background: rgba(0, 0, 0, 0.5); */
+            /* semi-transparent overlay */
+            display: block;
             justify-content: center;
+            align-items: center;
             opacity: 0;
             transition: opacity 0.3s;
+            /* border-radius: 50%; */
+            /* Make the overlay circle to match profile image */
         }
 
-        .overlay button {
-            display: none;
-        }
-
-        .col-md-8.col-lg-9:hover .overlay {
+        .position-relative:hover .overlay {
             opacity: 1;
         }
 
-        .col-md-8.col-lg-9:hover .overlay button {
-            display: inline-block;
-        }
-
-        .img-fluid {
+        .position-relative img {
+            display: block;
             max-width: 100%;
             height: auto;
-            display: block;
+            border-radius: 50%;
+            /* Make the profile image circular */
         }
     </style>
 @endpush
@@ -168,11 +168,11 @@
                                                     src="{{ $user->profile && $user->profile->photo ? asset('storage/' . $user->profile->photo) : asset('image/profile_avatar.png') }}"
                                                     alt="Profile_photo" class="img-fluid">
                                                 <div class="overlay">
-                                                    <button class="btn btn-primary btn-sm"
-                                                        onclick="document.getElementById('photo-input').click();">Upload
-                                                        Cover</button>
+                                                    <button class="btn upload-btn btn-sm" type="button"
+                                                        onclick="document.getElementById('photo-input').click();"><i
+                                                            class="bi bi-upload"></i></button>
                                                     <input type="file" id="photo-input" name="photo"
-                                                        class="form-control d-none">
+                                                        class="form-control d-none" onchange="previewImage(event)">
                                                 </div>
                                             </div>
                                         </div>
@@ -366,4 +366,16 @@
             </div>
         </section>
     </main>
+    @push('scripts')
+        <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('profile-photo');
+                    output.src = reader.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+    @endpush
 @endsection

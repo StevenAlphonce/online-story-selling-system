@@ -1,9 +1,8 @@
 @extends('layout.app')
 @include('layout.includes._header')
 
-@include('layout.includes._sidebar')
 @section('content')
-    <main id="main" class="main">
+    <main class="container" style="margin-top:100px;">
 
         <section style="margin-top: 50px;" class="section dashboard">
             <div class="row">
@@ -63,6 +62,9 @@
                         </div><!-- End Revenue Card -->
                     </div>
                 </div><!-- End Left side columns -->
+
+
+
             </div>
         </section>
     </main>

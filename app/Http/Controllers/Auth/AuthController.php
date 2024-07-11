@@ -31,11 +31,11 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => [
                 'required', 'confirmed', Password::min(6)
-                // ->mixedCase()
-                // ->letters()
-                // ->numbers()
-                // ->symbols()
-                // ->uncompromised(),
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
             ],
             // 'type' => 'required|in:user,admin' // Ensure the type field is provided and valid
         ]);

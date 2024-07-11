@@ -111,7 +111,8 @@
                                          <li class="nav-item" role="presentation">
                                              <button class="nav-link active" id="table-tab" data-bs-toggle="tab"
                                                  data-bs-target="#bordered-table" type="button" role="tab"
-                                                 aria-controls="table" aria-selected="false">Table of Contents</button>
+                                                 aria-controls="table" aria-selected="false">{{ $story->title }} &nbsp;
+                                                 {{ 'Chapters' }}</button>
                                          </li>
                                      </ul>
                                      <div class="tab-content pt-2" id="borderedTabContent">
@@ -199,7 +200,7 @@
                                                      </div>
 
                                                      <!-- Copyright Field -->
-                                                     <div class="col-md-6">
+                                                     {{-- <div class="col-md-6">
                                                          <label for="copyright"
                                                              class="form-label">{{ __('Copyright') }}</label>
                                                          <select class="form-select" name="copyright" id="copyright"
@@ -221,22 +222,22 @@
                                                                  <strong>{{ $errors->first('copyright') }}</strong>
                                                              </span>
                                                          @endif
-                                                     </div>
+                                                     </div> --}}
                                                  </div>
 
                                                  <div class="row">
                                                      <!-- Rating Field -->
-                                                     <div class="col-md-6 form-check form-switch">
+                                                     {{-- <div class="col-md-6 form-check form-switch">
                                                          <label style="margin:8px 0 20px 0;" class="form-check-label"
                                                              for="flexSwitchCheckChecked">{{ __('Allow Rating') }}</label>
                                                          <input type="hidden" name="rating" value="0">
                                                          <input style="margin:10px 5px 2px 0;" class="form-check-input"
                                                              type="checkbox" name="rating" id="flexSwitchCheckChecked"
                                                              {{ old('rating', $story->rating) ? 'checked' : '' }}>
-                                                     </div>
+                                                     </div> --}}
 
                                                      <!-- Language Field -->
-                                                     <div class="col-md-6">
+                                                     {{-- <div class="col-md-6">
                                                          <label for="language"
                                                              class="form-label">{{ __('Language') }}</label>
                                                          <select class="form-select" name="language" id="language"
@@ -258,7 +259,7 @@
                                                                  <strong>{{ $errors->first('language') }}</strong>
                                                              </span>
                                                          @endif
-                                                     </div>
+                                                     </div> --}}
                                                  </div>
 
                                                  <!-- Submit Button -->
